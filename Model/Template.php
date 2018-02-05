@@ -2,6 +2,7 @@
 
 namespace IDCI\Bundle\DocumentManagementBundle\Model;
 
+use Behat\Transliterator\Transliterator;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Template
@@ -46,9 +47,43 @@ class Template
      */
     private $templateData;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->templateData = new ArrayCollection();
+    }
+
+    /**
+     * On create.
+     */
+    public function onCreate()
+    {
+        $this->setSlug($this->generateSlug());
+        $now = new \DateTime("now");
+        $this
+            ->setCreatedAt($now)
+            ->setUpdatedAt($now);
+    }
+
+    /**
+     * On update.
+     */
+    public function onUpdate()
+    {
+        $this->setSlug($this->generateSlug());
+        $this->setUpdatedAt(new \DateTime("now"));
+    }
+
+    /**
+     * toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     /**
@@ -241,6 +276,18 @@ class Template
         $this->templateData = $templateData;
 
         return $this;
+    }
+
+    /**
+     * Generate the slug (Using the template name)
+     *
+     * @return string
+     */
+    protected function generateSlug()
+    {
+        $slug = Transliterator::transliterate($this->getName());
+
+        return Transliterator::urlize($slug);
     }
 }
 
