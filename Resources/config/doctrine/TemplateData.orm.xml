@@ -10,8 +10,9 @@
             <index name="reference" columns="reference" />
         </indexes>
 
-        <id name="id" type="integer" column="id">
-            <generator strategy="AUTO"/>
+        <id name="id" type="uuid" column="id">
+            <generator strategy="CUSTOM"/>
+            <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
         </id>
 
         <field name="data" column="data" type="json" />

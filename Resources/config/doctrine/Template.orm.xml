@@ -11,13 +11,9 @@
             <index name="slug" columns="slug" />
         </indexes>
 
-        <lifecycle-callbacks>
-            <lifecycle-callback type="prePersist" method="onCreate" />
-            <lifecycle-callback type="preUpdate"  method="onUpdate" />
-        </lifecycle-callbacks>
-
-        <id name="id" type="integer" column="id">
-            <generator strategy="AUTO"/>
+        <id name="id" type="uuid" column="id">
+            <generator strategy="CUSTOM"/>
+            <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
         </id>
 
         <field name="name" column="name" type="string" />
@@ -26,6 +22,11 @@
         <field name="css" column="css" type="text" />
         <field name="createdAt" column="created_at" type="datetime" />
         <field name="updatedAt" column="updated_at" type="datetime" />
+
+        <lifecycle-callbacks>
+            <lifecycle-callback type="prePersist" method="onCreate" />
+            <lifecycle-callback type="preUpdate"  method="onUpdate" />
+        </lifecycle-callbacks>
 
         <one-to-many field="templateData" target-entity="TemplateData" mapped-by="template" />
     </entity>

@@ -1,0 +1,10 @@
+---
+doctrine:
+    dbal:
+        types:
+            uuid: Ramsey\Uuid\Doctrine\UuidType
+
+    orm:
+        mappings:
+            IDCIDocumentManagementBundle: {prefix: "IDCI\\Bundle\\DocumentManagementBundle\\Model"}
+
