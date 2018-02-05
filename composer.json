@@ -23,6 +23,5 @@
             "IDCI\\Bundle\\DocumentManagementBundle\\": ""
         }
     },
-    "target-dir": "IDCI/Bundle/DocumentManagementBundle",
     "minimum-stability": "dev"
 }
