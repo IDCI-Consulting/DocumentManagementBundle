@@ -2,7 +2,7 @@ FROM php:5.6-fpm
 
 RUN apt-get update
 
-RUN apt-get install -y libicu-dev g++
+RUN apt-get install -y libicu-dev g++ wget git
 
 # extensions
 RUN docker-php-ext-install pdo
