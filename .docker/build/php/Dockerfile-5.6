@@ -1,0 +1,21 @@
+FROM php:5.6-fpm
+
+RUN apt-get update
+
+RUN apt-get install -y libicu-dev g++
+
+# extensions
+RUN docker-php-ext-install pdo
+RUN docker-php-ext-configure intl && docker-php-ext-install intl
+
+# xdebug
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+# php.ini
+COPY php.ini /usr/local/etc/php/
+
+# install composer
+COPY install-composer.sh /tmp/install-composer.sh
+RUN chmod +x /tmp/install-composer.sh
+RUN bash /tmp/install-composer.sh
+VOLUME /root/.composer

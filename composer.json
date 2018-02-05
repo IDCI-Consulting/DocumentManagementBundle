@@ -1,0 +1,28 @@
+{
+    "name": "idci/document-management-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony bundle to handle document management features like storage, pdf generation",
+    "keywords": ["document", "document management", "DMS", "GED", "document generation"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gabriel Bondaz",
+            "email": "gabriel.bondaz@idci-consulting.fr",
+            "homepage": "https://www.idci-consulting.fr"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "knplabs/knp-snappy-bundle": "~1.5",
+        "knplabs/knp-gaufrette-bundle": "~0.5",
+        "h4cc/wkhtmltopdf-amd64": "~0.12",
+        "h4cc/wkhtmltopdf-i386": "~0.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "IDCI\\Bundle\\DocumentManagementBundle\\": ""
+        }
+    },
+    "target-dir": "IDCI/Bundle/DocumentManagementBundle",
+    "minimum-stability": "dev"
+}
