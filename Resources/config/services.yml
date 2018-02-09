@@ -1,9 +1,37 @@
+parameters:
+    idci_document.generator.class: IDCI\Bundle\DocumentManagementBundle\Generator\Generator
+
+    idci_document.converter.registry.class: IDCI\Bundle\DocumentManagementBundle\Converter\ConverterRegistry
+    idci_document.converter.pdf.class: IDCI\Bundle\DocumentManagementBundle\Converter\PdfConverter
+
+    idci_document.model.template.class: IDCI\Bundle\DocumentManagementBundle\Model\Template
+
+    idci_document.repository.template.class: IDCI\Bundle\DocumentManagementBundle\Repository\TemplateRepository
+
 services:
 
-    ## Twig ##
-    idci_document.twig_array_loader:
-        class:        "Twig_Loader_Array"
+    ## Generator
+    tms_document:
+        class: Tms\Bundle\DocumentBundle\Generator\Generator
+        arguments:
+            - "@idci_document.repository.template"
+            - "@idci_document.converter.registry"
+            - "@twig"
 
-    idci_document.merger:
-        class:        "%twig.class%"
-        arguments:    ["@idci_document.twig_array_loader"]
+    ## Registry
+    idci_document.converter.registry:
+        class: "%idci_document.converter.registry.class%"
+
+    ## Converter
+    idci_document.converter.pdf:
+        class: "%idci_document.converter.pdf.class%"
+        arguments: ["@knp_snappy.pdf"]
+        tags:
+            - { name: idci_document.converter, alias: pdf }
+
+    ## Repository
+    idci_document.repository.template:
+        class: "%idci_document.repository.template.class%"
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - "%idci_document.repository.template.class%"
