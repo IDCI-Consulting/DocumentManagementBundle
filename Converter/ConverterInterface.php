@@ -4,12 +4,14 @@
  * @license MIT
  */
 
-namespace Tms\Bundle\DocumentBundle\Converter;
+namespace IDCI\Bundle\DocumentManagementBundle\Converter;
 
-use Tms\Bundle\DocumentBundle\Entity\Template;
+use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 
 /**
  * ConverterInterface
+ *
+ * @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */
 interface ConverterInterface
 {
