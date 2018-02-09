@@ -1,0 +1,9 @@
+services:
+
+    ## Twig ##
+    idci_document.twig_array_loader:
+        class:        "Twig_Loader_Array"
+
+    idci_document.merger:
+        class:        "%twig.class%"
+        arguments:    ["@idci_document.twig_array_loader"]
