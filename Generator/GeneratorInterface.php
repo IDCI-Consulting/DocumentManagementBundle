@@ -4,7 +4,7 @@
  * @license MIT
  */
 
-namespace IDCI\Bundle\DocumentManagementBundle\Generator
+namespace IDCI\Bundle\DocumentManagementBundle\Generator;
 
 /**
  * Interface GeneratorInterface

@@ -3,18 +3,25 @@
 /**
  * @license MIT
  */
-namespace IDCI\Bundle\DocumentManagementBundle\Generator
+namespace IDCI\Bundle\DocumentManagementBundle\Generator;
 
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use \Twig_Environment;
 use IDCI\Bundle\DocumentManagementBundle\Converter\ConverterRegistryInterface;
+use IDCI\Bundle\DocumentManagementBundle\Model\Template;
+use IDCI\Bundle\DocumentManagementBundle\Repository\TemplateRepository;
 
 /**
  * Class Generator.
+ *
+ * @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */
 class Generator implements GeneratorInterface
 {
+    /** @var TemplateRepository */
+    private $templateRepository;
+
     /** @var ConverterRegistryInterface */
     private $converterRegistry;
 
@@ -24,13 +31,16 @@ class Generator implements GeneratorInterface
     /**
      * Constructor.
      *
+     * @param TemplateRepository         $templateRepository
      * @param ConverterRegistryInterface $converterRegistry
      * @param \Twig_Environment          $twig
      */
     public function __construct(
+        TemplateRepository         $templateRepository,
         ConverterRegistryInterface $converterRegistry,
         \Twig_Environment          $twig
     ) {
+        $this->templateRepository = $templateRepository;
         $this->converterRegistry = $converterRegistry;
         $this->twig = $twig;
     }
@@ -43,6 +53,7 @@ class Generator implements GeneratorInterface
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
         $parameters = $resolver->resolve($parameters);
+        $format = $parameters['options']['format'];
 
         $template = $this->templateRepository->findOne(array('id' => $parameters['template_id']));
 
@@ -55,11 +66,10 @@ class Generator implements GeneratorInterface
 
         // TODO: Build Data according to TemplateData, given parameters data and reference.
 
-
         $html = $this->render(
             $template,
             $parameters['data'],
-            $parameters['options']['format']
+            $format
         );
 
         if (!$this->converterRegistry->hasConverter($format)) {
