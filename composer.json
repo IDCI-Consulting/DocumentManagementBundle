@@ -16,7 +16,9 @@
         "knplabs/knp-snappy-bundle": "~1.5",
         "knplabs/knp-gaufrette-bundle": "~0.5",
         "h4cc/wkhtmltopdf-amd64": "~0.12",
-        "h4cc/wkhtmltopdf-i386": "~0.12"
+        "h4cc/wkhtmltopdf-i386": "~0.12",
+        "ramsey/uuid-doctrine": "~1.4",
+        "behat/transliterator": "~1.2"
     },
     "autoload": {
         "psr-4": {
