@@ -8,16 +8,15 @@
 
         <indexes>
             <index name="name" columns="name" />
-            <index name="slug" columns="slug" />
         </indexes>
 
         <id name="id" type="uuid" column="id">
-            <generator strategy="CUSTOM"/>
-            <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+            <generator strategy="CUSTOM" />
+            <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator" />
         </id>
 
         <field name="name" column="name" type="string" />
-        <field name="slug" column="slug" type="string" unique="true" />
+        <field name="description" column="description" type="text" />
         <field name="html" column="html" type="text" />
         <field name="css" column="css" type="text" />
         <field name="createdAt" column="created_at" type="datetime" />
@@ -28,7 +27,7 @@
             <lifecycle-callback type="preUpdate"  method="onUpdate" />
         </lifecycle-callbacks>
 
-        <one-to-many field="templateData" target-entity="TemplateData" mapped-by="template" />
+        <one-to-many field="documents" target-entity="Document" mapped-by="template" />
     </entity>
 
 </doctrine-mapping>

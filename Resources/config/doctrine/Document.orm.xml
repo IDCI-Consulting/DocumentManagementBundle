@@ -4,8 +4,7 @@
     xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
     http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
 
-    <entity name="IDCI\Bundle\DocumentManagementBundle\Model\TemplateData" table="template_data">
-
+    <entity name="IDCI\Bundle\DocumentManagementBundle\Model\Document" table="document">
         <indexes>
             <index name="reference" columns="reference" />
         </indexes>
@@ -15,12 +14,14 @@
             <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
         </id>
 
+        <field name="name" column="name" type="string" />
+        <field name="description" column="description" type="string" />
         <field name="data" column="data" type="json" />
         <field name="reference" column="reference" type="string" />
         <field name="createdAt" column="created_at" type="datetime" />
         <field name="updatedAt" column="updated_at" type="datetime" />
 
-        <many-to-one field="template" target-entity="Template" inversed-by="templateData">
+        <many-to-one field="template" target-entity="Template" inversed-by="documents">
             <join-column name="template_id" referenced-column-name="id" />
         </many-to-one>
     </entity>
