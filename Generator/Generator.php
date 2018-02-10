@@ -66,18 +66,18 @@ class Generator implements GeneratorInterface
 
         // TODO: Build Data according to TemplateData, given parameters data and reference.
 
-        $html = $this->render(
-            $template,
-            $parameters['data'],
-            $format
-        );
-
         if (!$this->converterRegistry->hasConverter($format)) {
             throw new \UnexpectedValueException(sprintf(
                 "UnexpectedValueException - Format: %s doesn't exist",
                 $format
             ));
         }
+
+        $html = $this->render(
+            $template,
+            $parameters['data'],
+            $format
+        );
 
         return $this->converterRegistry->getConverter($format)->convert($html);
     }

@@ -9,6 +9,8 @@ use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 use IDCI\Bundle\DocumentManagementBundle\Exception\MissingGenerationParametersException;
 use IDCI\Bundle\DocumentManagementBundle\Repository\TemplateRepository;
 use IDCI\Bundle\DocumentManagementBundle\Converter\ConverterRegistryInterface;
+use IDCI\Bundle\DocumentManagementBundle\Converter\ConverterInterface;
+use IDCI\Bundle\DocumentManagementBundle\Converter\PdfConverter;
 use IDCI\Bundle\DocumentManagementBundle\Generator\Generator;
 
 /**
@@ -74,14 +76,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->template
-            ->expects($this->any())
-            ->method('getMergeTags')
-            ->will($this->returnValue(array(
-                (new MergeTag())->setRequired(false),
-                (new MergeTag())->setRequired(true),
-            )));
-
         $converter = $this->getMockBuilder(ConverterInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -111,11 +105,11 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * testGenerate
-     *
-     * @depends generateConfig
      */
     public function testGenerate()
     {
+        $this->generateConfig();
+
         $parameters = array(
             'template_id' => '0',
             'data' => array(),
@@ -127,11 +121,11 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * testGenerate
-     *
-     * @depends generateConfig
      */
     public function testPreview()
     {
+        $this->generateConfig();
+
         $parameters = array(
             'template_id' => '0',
             'data' => array(),
@@ -141,11 +135,12 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->generator->generate($parameters));
     }
     /**
-     * @depends generateConfig
      * @expectedException \RuntimeException
      */
     public function testRuntimeException()
     {
+        $this->generateConfig();
+
         $parameters = array(
             'template_id' => '0',
             'data' => array(),
@@ -203,13 +198,18 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Twig_Error
+     * @expectedException \Exception
      */
     public function testTwigErrorRuntime()
     {
         $converter = $this->getMockBuilder(ConverterInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
+
+        $converter
+            ->expects($this->once())
+            ->method('buildContent')
+            ->will($this->returnValue('dummy_content'));
 
         $this->converterRegistry
             ->expects($this->any())
@@ -221,14 +221,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             ->method('getConverter')
             ->will($this->returnValue($converter));
 
-        $converter
-            ->expects($this->any())
-            ->method('buildContent')
-            ->will($this->returnValue('dummy'));
-
         $this->templateRepository
             ->expects($this->once())
-            ->method('find')
+            ->method('findOne')
             ->will($this->returnValue(new Template()));
 
         $this->twig
@@ -246,11 +241,11 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Twig_Error
+     * @expectedException \Exception
      */
     public function testTwigError()
     {
-        $converter = $this->getMockBuilder('Tms\Bundle\DocumentBundle\Converter\ConverterInterface')
+        $converter = $this->getMockBuilder(ConverterInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -264,14 +259,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             ->method('getConverter')
             ->will($this->returnValue($converter));
 
-        $converter
-            ->expects($this->any())
-            ->method('buildContent')
-            ->will($this->returnValue('dummy'));
-
         $this->templateRepository
             ->expects($this->once())
-            ->method('find')
+            ->method('findOne')
             ->will($this->returnValue(new Template()));
 
         $this->twig
