@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="IDCI\Bundle\DocumentManagementBundle\Model\Template" exclusion-policy="ALL" exclude="true" read-only="false">
+        <property name="id"
+            expose="true"
+            groups="template" />
+
+        <property name="name"
+            expose="true"
+            groups="template" />
+    </class>
+</serializer>

@@ -16,7 +16,7 @@
 
         <field name="name" column="name" type="string" />
         <field name="description" column="description" type="string" />
-        <field name="data" column="data" type="json" />
+        <field name="data" column="data" type="json_array" />
         <field name="reference" column="reference" type="string" />
         <field name="createdAt" column="created_at" type="datetime" />
         <field name="updatedAt" column="updated_at" type="datetime" />
