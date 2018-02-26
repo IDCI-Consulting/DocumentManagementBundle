@@ -4,6 +4,7 @@ namespace IDCI\Bundle\DocumentManagementBundle\Tests\Fixtures\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Ramsey\Uuid\Uuid;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 
 class LoadTemplateData implements FixtureInterface
@@ -12,16 +13,47 @@ class LoadTemplateData implements FixtureInterface
     {
         $template1 = new Template();
         $template1
-            ->setName('Template name')
-            ->setDescription('Template description.')
+            ->setName('Template one')
+            ->setDescription('Template one description.')
             ->setHtml('<html></html>')
             ->setCss('html { background: red; }');
 
-        $template2 = clone $template1;
+        $template2 = new Template();
+        $template2
+            ->setName('Template two')
+            ->setDescription('Template two description.')
+            ->setHtml('<html></html>')
+            ->setCss('html { background: blue; }');
+
+        $this->loadThirdTemplate($manager);
 
         $manager->persist($template1);
         $manager->persist($template2);
 
         $manager->flush();
+    }
+
+    /**
+     * Load the third template.
+     * While using Uuid generation, it is necessary to create
+     * a third template entity manually to avoid id generation.
+     *
+     * @param ObjectManager $manager
+     */
+    private function loadThirdTemplate(ObjectManager $manager)
+    {
+        $now = new \Datetime('now');
+        $sql = "INSERT INTO template VALUES (:id, :name, :description, :html, :css, :created_at, :updated_at);";
+
+        $stmt = $manager->getConnection()->prepare($sql);
+        $stmt->execute(array(
+            'id' => Uuid::fromString('b08c6fff-7dc5-e111-9b21-0800200c9a66'),
+            'name' => 'Template three',
+            'description' => 'Template three description',
+            'html' => '<html></html>',
+            'css' => 'html { background: green; }',
+            'created_at' => $now->format('Ymd'),
+            'updated_at' => $now->format('Ymd'),
+        ));
     }
 }

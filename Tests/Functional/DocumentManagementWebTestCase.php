@@ -26,8 +26,6 @@ class DocumentManagementWebTestCase extends WebTestCase
         $this->client = static::createClient();
         $this->container = $this->client->getContainer();
 
-        $this->container->get('twig.loader')->addPath(__DIR__.'/app/templates', '__main__');
-
         parent::setUp();
     }
 

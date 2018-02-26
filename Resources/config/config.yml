@@ -9,6 +9,7 @@ doctrine:
             IDCIDocumentManagementBundle: {prefix: "IDCI\\Bundle\\DocumentManagementBundle\\Model"}
 
 fos_rest:
+    param_fetcher_listener: true
     routing_loader:
         default_format: null
     view:

@@ -4,7 +4,6 @@ imports:
 
 framework:
     secret: "Dummy secret"
-    test: ~
     session:
         storage_id: session.storage.mock_file
     profiler:
@@ -14,6 +13,7 @@ framework:
         strict_requirements: ~
     templating:
         engines: ['twig']
+    test: ~
     trusted_proxies: ~
     http_method_override: true
 
