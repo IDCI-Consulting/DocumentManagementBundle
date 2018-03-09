@@ -4,6 +4,7 @@ imports:
 
 framework:
     secret: "Dummy secret"
+    form: true
     session:
         storage_id: session.storage.mock_file
     profiler:
