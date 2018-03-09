@@ -8,55 +8,66 @@ use IDCI\Bundle\DocumentManagementBundle\Tests\Functional\DocumentManagementWebT
 
 class TemplateControllerTest extends DocumentManagementWebTestCase
 {
+    /**
+     * @var Doctrine\ORM\EntityManager $manager
+     */
+    private $manager;
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->manager = $this->container->get('doctrine')->getManager();
+    }
+
     public function testGetTemplatesAction()
     {
         $this->client->request('GET', '/api/templates');
+        $response = $this->client->getResponse();
 
-        $templates = json_decode($this->client->getResponse()->getContent(), true);
+        $templates = json_decode($response->getContent(), true);
 
         $this->assertEquals(3, sizeof($templates));
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
     public function testGetTemplateAction()
     {
         $this->client->request('GET', '/api/templates/b08c6fff-7dc5-e111-9b21-0800200c9a66');
+        $response = $this->client->getResponse();
 
-        $template = json_decode($this->client->getResponse()->getContent(), true);
+        $template = json_decode($response->getContent(), true);
 
         $this->assertEquals('b08c6fff-7dc5-e111-9b21-0800200c9a66', $template['id']);
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
-    public function testPostTemplateAction()
+    public function testDeleteTemplateAction()
     {
-        $params = array(
-            'name' => 'Template four',
-            'description' => 'Template description four',
-            'html' => '<html></html>',
-            'css' => 'html { background: tomato; }',
-        );
-
-        $this->client->request('POST', '/api/templates', $params);
-
-        $template = $this
-            ->container
-            ->get('doctrine')
-            ->getManager()
+        $templates = $this
+            ->manager
             ->getRepository(Template::class)
-            ->findOneByName($params);
+            ->findAll();
 
-        $this->assertEquals($params['description'], $template->getDescription());
-        $this->assertEquals(Response::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
+        $this->client->request('DELETE', '/api/templates/b08c6fff-7dc5-e111-9b21-0800200c9a66');
+
+        $templates = $this
+            ->manager
+            ->getRepository(Template::class)
+            ->findAll();
+
+        $this->assertEquals(2, sizeof($templates));
+        $this->assertEquals(Response::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
     }
 
     public function testTemplateNotFound()
     {
         $this->client->request('GET', '/api/templates/dummy-id');
+        $response = $this->client->getResponse();
 
-        $content = json_decode($this->client->getResponse()->getContent(), true);
+        $content = json_decode($response->getContent(), true);
 
         $this->assertEmpty($content);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 }

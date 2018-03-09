@@ -92,23 +92,13 @@ class DocumentController extends FOSRestController
         $form->submit($paramFetcher->all());
 
         if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $manager->persist($document);
-                $manager->flush();
-            } catch (\Exception $e) {
-                $view->setStatusCode(Response::HTTP_CONFLICT);
-
-                return $this->handleView($view);
-            }
+            $manager->persist($document);
+            $manager->flush();
 
             $view->setStatusCode(Response::HTTP_CREATED);
 
             return $this->handleView($view);
         }
-
-        $view->setStatusCode(Response::HTTP_NOT_FOUND);
-
-        return $this->handleView($view);
     }
 
     /**

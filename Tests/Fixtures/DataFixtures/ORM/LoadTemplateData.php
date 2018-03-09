@@ -2,13 +2,17 @@
 
 namespace IDCI\Bundle\DocumentManagementBundle\Tests\Fixtures\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ramsey\Uuid\Uuid;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 
-class LoadTemplateData implements FixtureInterface
+class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
         $template1 = new Template();
@@ -55,5 +59,13 @@ class LoadTemplateData implements FixtureInterface
             'created_at' => $now->format('Ymd'),
             'updated_at' => $now->format('Ymd'),
         ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOrder()
+    {
+        return 1;
     }
 }

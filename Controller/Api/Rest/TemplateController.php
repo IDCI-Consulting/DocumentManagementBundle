@@ -10,9 +10,19 @@ use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use JMS\Serializer\SerializationContext;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
+use IDCI\Bundle\DocumentManagementBundle\Form\TemplateType;
 
+/**
+ * TemplateController
+ */
 class TemplateController extends FOSRestController
 {
+    /**
+     * [GET] /api/templates
+     * Retrieve a set of templates.
+     *
+     * @return Response
+     */
     public function getTemplatesAction()
     {
         $view = $this->view(
@@ -26,6 +36,14 @@ class TemplateController extends FOSRestController
         return $this->handleView($view);
     }
 
+    /**
+     * [GET] /api/templates/{uuid}
+     * Retrieve a template.
+     *
+     * @param string $uuid
+     *
+     * @return Response
+     */
     public function getTemplateAction($uuid)
     {
         try {
@@ -33,6 +51,9 @@ class TemplateController extends FOSRestController
                 $this->getDoctrine()->getManager()->getRepository(Template::class)->find($uuid),
                 Response::HTTP_OK
             );
+
+            $context = SerializationContext::create()->setGroups(array('template'));
+            $view->setSerializationContext($context);
 
             return $this->handleView($view);
         } catch (\Exception $e) {
@@ -44,31 +65,28 @@ class TemplateController extends FOSRestController
     }
 
     /**
-     * @RequestParam(name="name", strict=true, nullable=false)
-     * @RequestParam(name="description", strict=true, nullable=true)
-     * @RequestParam(name="html", strict=true, nullable=true)
-     * @RequestParam(name="css", strict=true, nullable=true)
+     * [DELETE] /api/templates/{uuid}
+     * Delete a template.
      *
-     * @param ParamFetcher $paramFetcher
+     * @param string $uuid
      *
      * @return Response
      */
-    public function postTemplatesAction(ParamFetcher $paramFetcher)
+    public function deleteTemplateAction($uuid)
     {
-        $em = $this->getDoctrine()->getManager();
-        $template = new Template();
+        $manager = $this->getDoctrine()->getManager();
 
-        foreach ($paramFetcher->all() as $name => $value) {
-            call_user_func(array($template, sprintf('set%s', ucfirst($name))), $value);
-        }
+        $template = $manager->getRepository(Template::class)->find($uuid);
 
-        $em->persist($template);
-        $em->flush();
+        $manager->remove($template);
+        $manager->flush();
 
-        return $this->handleView($this->view(
+        $view = $this->view(
             array(),
-            Response::HTTP_CREATED
-        ));
+            Response::HTTP_NO_CONTENT
+        );
+
+        return $this->handleView($view);
     }
 }
 
