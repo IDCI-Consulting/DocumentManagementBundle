@@ -29,9 +29,8 @@ services:
         tags:
             - { name: idci_document.converter, alias: pdf }
 
-    ## Repository
-    idci_document.repository.template:
-        class: "%idci_document.repository.template.class%"
-        factory: ["@doctrine.orm.entity_manager", getRepository]
-        arguments:
-            - "%idci_document.repository.template.class%"
+    # Twig string loader
+    twig.loader.string:
+        class: Twig_Loader_String
+        tags:
+            - { name: twig.loader }

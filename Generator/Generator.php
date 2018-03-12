@@ -8,6 +8,8 @@ namespace IDCI\Bundle\DocumentManagementBundle\Generator;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use \Twig_Environment;
+use Twig\Error\RuntimeError;
+use Twig\Error\Error;
 use IDCI\Bundle\DocumentManagementBundle\Converter\ConverterRegistryInterface;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 use IDCI\Bundle\DocumentManagementBundle\Repository\TemplateRepository;
@@ -64,8 +66,6 @@ class Generator implements GeneratorInterface
             ));
         }
 
-        // TODO: Build Data according to TemplateData, given parameters data and reference.
-
         if (!$this->converterRegistry->hasConverter($format)) {
             throw new \UnexpectedValueException(sprintf(
                 "UnexpectedValueException - Format: %s doesn't exist",
@@ -100,15 +100,19 @@ class Generator implements GeneratorInterface
         $content = $converter->buildContent($template);
 
         try {
-            $content = $this->twig->render($content, $data);
-        } catch (\Twig_Error_Runtime $e) {
+            $template = $this->twig->createTemplate($content);
+
+            $content = $this->twig->render(array(
+                'data' => $data,
+            ));
+        } catch (RuntimeError $e) {
             throw new \Exception(sprintf(
-                "%s - Render: %s, this exception was raised may be you use a merge tag not defined in the template: %s",
+                "%s - Render: %s, this exception was raised may be you use not defined data in the template: %s",
                 get_class($e),
                 $e->getMessage(),
                 $template->getId()
             ));
-        } catch (\Twig_Error $e) {
+        } catch (Error $e) {
             throw new \Exception(sprintf(
                 "%s - Render: %s, template id: %s",
                 get_class($e),
@@ -120,8 +124,6 @@ class Generator implements GeneratorInterface
         /**
          * Clear twig cache files
          *
-         * Twig_Loader_String
-
          * When using this loader with a cache mechanism, you should know that a new cache
          * key is generated each time a template content "changes" (the cache key being the
          * source code of the template). If you don't want to see your cache grows out of

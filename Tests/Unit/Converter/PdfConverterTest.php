@@ -49,8 +49,18 @@ class PdfConverterTest extends \PHPUnit_Framework_TestCase
             ->setHtml('dummy_html')
             ->setCss('dummy_css');
 
+        $expectedContent =<<<EOF
+<html>
+    <head>
+        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+        <style type=\"text/css\">dummy_css</style>
+    </head>
+    <body>dummy_html</body>
+</html>
+EOF;
+
         $this->assertEquals(
-            "<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" /><style type=\"text/css\">dummy_css</style></head><body>dummy_html</body></html>",
+            $expectedContent,
             $pdfConverter->buildContent($template)
         );
     }

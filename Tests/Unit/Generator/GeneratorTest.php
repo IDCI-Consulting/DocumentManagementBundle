@@ -2,9 +2,8 @@
 
 namespace IDCI\Bundle\DocumentManagementBundle\Tests\Generator;
 
-use \Twig_Environment;
-use \Twig_Error;
-use \Twig_Error_Runtime;
+use PHPUnit\Framework\TestCase;
+use Twig\Environment;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 use IDCI\Bundle\DocumentManagementBundle\Exception\MissingGenerationParametersException;
 use IDCI\Bundle\DocumentManagementBundle\Repository\TemplateRepository;
@@ -18,7 +17,7 @@ use IDCI\Bundle\DocumentManagementBundle\Generator\Generator;
  *
  * @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */
-class GeneratorTest extends \PHPUnit_Framework_TestCase
+class GeneratorTest extends TestCase
 {
     /**
      * @var Template
@@ -59,13 +58,16 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->twig = $this->getMockBuilder(Twig_Environment::class)
+        $this->twig = $this->getMockBuilder(Environment::class)
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->template = new Template();
+        $this->template
+            ->setName('dummy');
+
         $this->generator = new Generator($this->templateRepository, $this->converterRegistry, $this->twig);
     }
-
 
     /**
      * generateConfig
@@ -120,37 +122,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * testGenerate
-     */
-    public function testPreview()
-    {
-        $this->generateConfig();
-
-        $parameters = array(
-            'template_id' => '0',
-            'data' => array(),
-            'options' => array('format' => 'html'),
-        );
-
-        $this->assertNull($this->generator->generate($parameters));
-    }
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testRuntimeException()
-    {
-        $this->generateConfig();
-
-        $parameters = array(
-            'template_id' => '0',
-            'data' => array(),
-            'options' => array('format' => 'html'),
-        );
-
-        $this->assertNull($this->generator->generate($parameters));
-    }
-
-    /**
      * @expectedException \UnexpectedValueException
      */
     public function testUnexpectedValueExceptionWhenNoTemplate()
@@ -174,14 +145,10 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnexpectedValueExceptionWhenNoConverter()
     {
-        $converter = $this->getMockBuilder(ConverterInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->templateRepository
             ->expects($this->once())
             ->method('findOne')
-            ->will($this->returnValue(new Template()));
+            ->will($this->returnValue($this->template));
 
         $this->converterRegistry
             ->expects($this->once())
@@ -202,6 +169,14 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testTwigErrorRuntime()
     {
+        $template = $this->getMockBuilder(Template::class)
+            ->getMock();
+
+        $template
+            ->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue('0'));
+
         $converter = $this->getMockBuilder(ConverterInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -209,7 +184,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $converter
             ->expects($this->once())
             ->method('buildContent')
-            ->will($this->returnValue('dummy_content'));
+            ->will($this->returnValue('{{ data.dummy }}'));
 
         $this->converterRegistry
             ->expects($this->any())
@@ -224,17 +199,17 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->templateRepository
             ->expects($this->once())
             ->method('findOne')
-            ->will($this->returnValue(new Template()));
+            ->will($this->returnValue($template));
 
         $this->twig
             ->expects($this->once())
             ->method('render')
-            ->will($this->throwException(new Twig_Error_Runtime('ERROR')));
+            ->will($this->throwException(new \Twig_Error_Runtime('ERROR')));
 
         $parameters = array(
             'template_id' => '0',
-            'data' => array(),
-            'options' => array('format' => 'html'),
+            'data' => array('firstname' => 'foo'),
+            'options' => array('format' => 'pdf'),
         );
 
         $this->generator->generate($parameters);
@@ -245,6 +220,14 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testTwigError()
     {
+        $template = $this->getMockBuilder(Template::class)
+            ->getMock();
+
+        $template
+            ->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue('0'));
+
         $converter = $this->getMockBuilder(ConverterInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -262,7 +245,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->templateRepository
             ->expects($this->once())
             ->method('findOne')
-            ->will($this->returnValue(new Template()));
+            ->will($this->returnValue($template));
 
         $this->twig
             ->expects($this->once())

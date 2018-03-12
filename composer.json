@@ -30,7 +30,7 @@
         "jms/serializer-bundle": "^2.3",
         "symfony/options-resolver": "^3.4",
         "symfony/form": "^3.4",
-        "twig/twig": "~1.0"
+        "twig/twig": "*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^2.2",
