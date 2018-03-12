@@ -1,0 +1,28 @@
+---
+imports:
+    - { resource: "@IDCIDocumentManagementBundle/Resources/config/config.yml" }
+
+framework:
+    secret: "Dummy secret"
+    form: true
+    session:
+        storage_id: session.storage.mock_file
+    profiler:
+        collect: false
+    router:
+        resource: "./routing.yml"
+        strict_requirements: ~
+    templating:
+        engines: ['twig']
+    test: ~
+    trusted_proxies: ~
+    http_method_override: true
+
+doctrine:
+    dbal:
+        default_connection: default
+        connections:
+            default:
+                driver: pdo_sqlite
+                path: ./Tests/sqlite_database.db
+

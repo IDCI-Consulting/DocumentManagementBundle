@@ -85,13 +85,22 @@ class Template
     }
 
     /**
-     * Get id.
+     * Get Uuid.
      *
      * @return Uuid
      */
-    public function getId()
+    public function getUuid()
     {
         return $this->id;
+    }
+    /**
+     * Get id.
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id->toString();
     }
 
     /**

@@ -1,53 +1,10 @@
 ---
-# Documents
-api_documents:
-    path: /documents
-    controller: IDCIDocumentManagementBundle:ApiDocument:getDocuments
-    methods: [GET]
+templates:
+    name_prefix: api_templates_
+    resource:    IDCI\Bundle\DocumentManagementBundle\Controller\Api\Rest\TemplateController
+    type:        rest
 
-api_document:
-    path: /documents/{id}
-    controller: IDCIDocumentManagementBundle:ApiDocument:getDocument
-    methods: [GET]
-
-api_documents_update:
-    path: /documents/{id}
-    controller: IDCIDocumentManagementBundle:ApiDocument:update
-    methods: [PUT, PATCH]
-
-api_documents_delete:
-    path: /documents/{id}
-    controller: IDCIDocumentManagementBundle:ApiDocument:delete
-    methods: [DELETE]
-
-api_documents_create:
-    path: /documents
-    controller: IDCIDocumentManagementBundle:ApiDocument:create
-    methods: [POST]
-
-
-# Template
-api_templates:
-    path: /templates
-    controller: IDCIDocumentManagementBundle:ApiTemplate:getTemplates
-    methods: [GET]
-
-api_template:
-    path: /templates/{id}
-    controller: IDCIDocumentManagementBundle:ApiTemplate:getTemplate
-    methods: [GET]
-
-api_templates_update:
-    path: /templates/{id}
-    controller: IDCIDocumentManagementBundle:ApiTemplate:update
-    methods: [PUT, PATCH]
-
-api_templates_delete:
-    path: /templates/{id}
-    controller: IDCIDocumentManagementBundle:ApiTemplate:delete
-    methods: [DELETE]
-
-api_templates_create:
-    path: /templates
-    controller: IDCIDocumentManagementBundle:ApiTemplate:create
-    methods: [POST]
+documents:
+    name_prefix: api_documents_
+    resource:    IDCI\Bundle\DocumentManagementBundle\Controller\Api\Rest\DocumentController
+    type:        rest

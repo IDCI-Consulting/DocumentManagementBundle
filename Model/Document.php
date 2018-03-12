@@ -45,13 +45,52 @@ class Document
     private $template;
 
     /**
+     * toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
+     * On create.
+     */
+    public function onCreate()
+    {
+        $now = new \DateTime("now");
+        $this
+            ->setCreatedAt($now)
+            ->setUpdatedAt($now);
+    }
+
+    /**
+     * On update.
+     */
+    public function onUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime("now"));
+    }
+
+    /**
+     * Get Uuid.
+     *
+     * @return Uuid
+     */
+    public function getUuid()
+    {
+        return $this->id;
+    }
+
+    /**
      * Get id.
      *
-     * @return Uuid.
+     * @return string
      */
     public function getId()
     {
-        return $this->id;
+        return $this->id->toString();
     }
 
     /**

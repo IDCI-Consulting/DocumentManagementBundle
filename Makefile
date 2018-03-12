@@ -40,5 +40,5 @@ phpcs-fix:
 # Symfony bundle commands
 
 .PHONY: phpunit
-phpunit: ./vendor/bin/phpunit
-	docker-compose run --rm $(target_container) ./vendor/bin/phpunit --coverage-text
+phpunit: ./vendor/bin/phpunit ./phpunit.xml.dist
+	docker-compose run --rm $(target_container) ./vendor/bin/phpunit --coverage-text $(options)
