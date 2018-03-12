@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class exclusion-policy="ALL" name="IDCI\Bundle\DocumentManagementBundle\Model\Template">
+        <virtual-property
+            expose="true"
+            groups="template"
+            method="getId"
+            name="id"
+            read-only="true"
+            type="string" />
+
+        <property
+            name="name"
+            expose="true"
+            groups="template" />
+
+        <property
+            expose="true"
+            groups="template"
+            name="description" />
+
+        <property
+            expose="true"
+            groups="template"
+            name="html" />
+
+        <property
+            expose="true"
+            groups="template"
+            name="css" />
+
+        <property
+            expose="true"
+            groups="template"
+            name="createdAt"
+            serialized-name="createdAt" />
+
+        <property
+            expose="true"
+            groups="template"
+            name="updatedAt"
+            serialized-name="updatedAt" />
+    </class>
+</serializer>

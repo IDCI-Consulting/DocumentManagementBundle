@@ -20,7 +20,7 @@ class Template
     /**
      * @var string
      */
-    private $slug;
+    private $description;
 
     /**
      * @var string
@@ -43,16 +43,16 @@ class Template
     private $updatedAt;
 
     /**
-     * @var array<TemplateData>
+     * @var array<Document>
      */
-    private $templateData;
+    private $documents;
 
     /**
      * Constructor.
      */
     public function __construct()
     {
-        $this->templateData = new ArrayCollection();
+        $this->documents = new ArrayCollection();
     }
 
     /**
@@ -60,7 +60,6 @@ class Template
      */
     public function onCreate()
     {
-        $this->setSlug($this->generateSlug());
         $now = new \DateTime("now");
         $this
             ->setCreatedAt($now)
@@ -72,7 +71,6 @@ class Template
      */
     public function onUpdate()
     {
-        $this->setSlug($this->generateSlug());
         $this->setUpdatedAt(new \DateTime("now"));
     }
 
@@ -87,13 +85,22 @@ class Template
     }
 
     /**
-     * Get id.
+     * Get Uuid.
      *
      * @return Uuid
      */
-    public function getId()
+    public function getUuid()
     {
         return $this->id;
+    }
+    /**
+     * Get id.
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id->toString();
     }
 
     /**
@@ -110,6 +117,8 @@ class Template
      * Set name.
      *
      * @param string name
+     *
+     * @return Template
      */
     public function setName($name)
     {
@@ -119,23 +128,25 @@ class Template
     }
 
     /**
-     * Get slug.
+     * Get description.
      *
      * @return string
      */
-    public function getSlug()
+    public function getDescription()
     {
-        return $this->slug;
+        return $this->description;
     }
 
     /**
-     * Set slug.
+     * Set description.
      *
-     * @param string slug
+     * @param string description
+     *
+     * @return Template
      */
-    public function setSlug($slug)
+    public function setDescription($description)
     {
-        $this->slug = $slug;
+        $this->description = $description;
 
         return $this;
     }
@@ -154,6 +165,8 @@ class Template
      * Set html.
      *
      * @param string html
+     *
+     * @return Template
      */
     public function setHtml($html)
     {
@@ -176,6 +189,8 @@ class Template
      * Set css.
      *
      * @param string css
+     *
+     * @return Template
      */
     public function setCss($css)
     {
@@ -198,6 +213,8 @@ class Template
      * Set createdAt.
      *
      * @param \Datetime createdAt
+     *
+     * @return Template
      */
     public function setCreatedAt($createdAt)
     {
@@ -220,6 +237,8 @@ class Template
      * Set updatedAt.
      *
      * @param \Datetime updatedAt
+     *
+     * @return Template
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -229,65 +248,41 @@ class Template
     }
 
     /**
-     * Add templateData.
+     * Add document.
      *
-     * @param TemplateData $templateData
+     * @param Document $document
      *
      * @return Template
      */
-    public function addTemplateData(TemplateData $templateData)
+    public function addDocument(Document $document)
     {
-        $this->templateData->add($templateData);
+        $this->documents->add($document);
 
         return $this;
     }
 
     /**
-     * Remove templateData.
+     * Remove document.
      *
-     * @param TemplateData $templateData
+     * @param Document $document
      *
      * @return Template
      */
-    public function removeTemplateData(TemplateData $templateData)
+    public function removeDocument(Document $document)
     {
-        $this->templateData->removeElement($templateData);
+        $this->documents->removeElement($document);
 
         return $this;
     }
 
     /**
-     * Get templateData.
+     * Get documents.
      *
      * @return ArrayCollection
      */
-    public function getTemplateData()
+    public function getDocuments()
     {
-        return $this->templateData;
-    }
-
-    /**
-     * Set templateData.
-     *
-     * @param templateData the value to set.
-     */
-    public function setTemplateData($templateData)
-    {
-        $this->templateData = $templateData;
-
-        return $this;
-    }
-
-    /**
-     * Generate the slug (Using the template name)
-     *
-     * @return string
-     */
-    protected function generateSlug()
-    {
-        $slug = Transliterator::transliterate($this->getName());
-
-        return Transliterator::urlize($slug);
+        return $this->documents;
     }
 }
 

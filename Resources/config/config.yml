@@ -8,3 +8,29 @@ doctrine:
         mappings:
             IDCIDocumentManagementBundle: {prefix: "IDCI\\Bundle\\DocumentManagementBundle\\Model"}
 
+fos_rest:
+    param_fetcher_listener: true
+    routing_loader:
+        default_format: null
+    view:
+        default_engine: twig
+        force_redirects:
+            html: true
+        formats:
+            json: true
+            xml: true
+            html: true
+        templating_formats:
+            html: false
+        view_response_listener: 'force'
+        failed_validation: HTTP_BAD_REQUEST
+    exception:
+        codes: ~
+        messages: ~
+    body_listener:
+        decoders:
+            json: fos_rest.decoder.json
+            xml: fos_rest.decoder.xml
+    format_listener:
+        rules:
+            - fallback_format: json

@@ -2,12 +2,22 @@
 
 namespace IDCI\Bundle\DocumentManagementBundle\Model;
 
-class TemplateData
+class Document
 {
     /**
      * @var Uuid
      */
     private $id;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $description;
 
     /**
      * @var array
@@ -35,13 +45,100 @@ class TemplateData
     private $template;
 
     /**
+     * toString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
+     * On create.
+     */
+    public function onCreate()
+    {
+        $now = new \DateTime("now");
+        $this
+            ->setCreatedAt($now)
+            ->setUpdatedAt($now);
+    }
+
+    /**
+     * On update.
+     */
+    public function onUpdate()
+    {
+        $this->setUpdatedAt(new \DateTime("now"));
+    }
+
+    /**
+     * Get Uuid.
+     *
+     * @return Uuid
+     */
+    public function getUuid()
+    {
+        return $this->id;
+    }
+
+    /**
      * Get id.
      *
-     * @return Uuid.
+     * @return string
      */
     public function getId()
     {
-        return $this->id;
+        return $this->id->toString();
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return Document
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get description.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set description.
+     *
+     * @param string $description
+     *
+     * @return Document
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
     }
 
     /**
@@ -58,6 +155,8 @@ class TemplateData
      * Set data.
      *
      * @param array data
+     *
+     * @return Document
      */
     public function setData(array $data)
     {
@@ -80,6 +179,8 @@ class TemplateData
      * Set reference.
      *
      * @param string $reference
+     *
+     * @return Document
      */
     public function setReference($reference)
     {
@@ -102,6 +203,8 @@ class TemplateData
      * Set createdAt.
      *
      * @param \DateTime createdAt
+     *
+     * @return Document
      */
     public function setCreatedAt($createdAt)
     {
@@ -124,6 +227,8 @@ class TemplateData
      * Set updatedAt.
      *
      * @param \Datetime $updatedAt
+     *
+     * @return Document
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -146,8 +251,10 @@ class TemplateData
      * Set template.
      *
      * @param Template $template
+     *
+     * @return Document
      */
-    public function setTemplate($template)
+    public function setTemplate(Template $template)
     {
         $this->template = $template;
 
