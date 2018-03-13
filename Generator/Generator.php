@@ -100,9 +100,9 @@ class Generator implements GeneratorInterface
         $content = $converter->buildContent($template);
 
         try {
-            $template = $this->twig->createTemplate($content);
+            $twigTemplate = $this->twig->createTemplate($content);
 
-            $content = $this->twig->render(array(
+            $content = $twigTemplate->render(array(
                 'data' => $data,
             ));
         } catch (RuntimeError $e) {

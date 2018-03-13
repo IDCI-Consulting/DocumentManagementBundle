@@ -4,6 +4,7 @@ namespace IDCI\Bundle\DocumentManagementBundle\Tests\Generator;
 
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;
+use Twig\Template as TwigTemplate;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 use IDCI\Bundle\DocumentManagementBundle\Exception\MissingGenerationParametersException;
 use IDCI\Bundle\DocumentManagementBundle\Repository\TemplateRepository;
@@ -40,6 +41,11 @@ class GeneratorTest extends TestCase
     protected $twig;
 
     /**
+     * @var TwigTemplate
+     */
+    protected $twigTemplate;
+
+    /**
      * @var Generator
      */
     protected $generator;
@@ -58,13 +64,12 @@ class GeneratorTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->twig = $this->getMockBuilder(Environment::class)
+        $this->twig = new \Twig_Environment(new \Twig_Loader_Array());
+        $this->twig->enableStrictVariables();
+
+        $this->template = $this->getMockBuilder(Template::class)
             ->disableOriginalConstructor()
             ->getMock();
-
-        $this->template = new Template();
-        $this->template
-            ->setName('dummy');
 
         $this->generator = new Generator($this->templateRepository, $this->converterRegistry, $this->twig);
     }
@@ -85,9 +90,7 @@ class GeneratorTest extends TestCase
         $this->templateRepository
             ->expects($this->once())
             ->method('findOne')
-            ->will($this->returnValue(
-                $this->template
-            ));
+            ->will($this->returnValue($this->template));
 
         $this->converterRegistry
             ->expects($this->once())
@@ -102,7 +105,7 @@ class GeneratorTest extends TestCase
         $converter
             ->expects($this->once())
             ->method('buildContent')
-            ->will($this->returnValue('dummy'));
+            ->will($this->returnValue('Hello {{ data.firstname }}'));
     }
 
     /**
@@ -114,7 +117,7 @@ class GeneratorTest extends TestCase
 
         $parameters = array(
             'template_id' => '0',
-            'data' => array(),
+            'data' => array('firstname' => 'foo'),
             'options' => array('format' => 'html'),
         );
 
@@ -169,14 +172,6 @@ class GeneratorTest extends TestCase
      */
     public function testTwigErrorRuntime()
     {
-        $template = $this->getMockBuilder(Template::class)
-            ->getMock();
-
-        $template
-            ->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue('0'));
-
         $converter = $this->getMockBuilder(ConverterInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -184,12 +179,17 @@ class GeneratorTest extends TestCase
         $converter
             ->expects($this->once())
             ->method('buildContent')
-            ->will($this->returnValue('{{ data.dummy }}'));
+            ->will($this->returnValue('Hello {{ data.dummy.foo }}'));
 
         $this->converterRegistry
             ->expects($this->any())
             ->method('hasConverter')
             ->will($this->returnValue(true));
+
+        $this->template
+            ->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue('0'));
 
         $this->converterRegistry
             ->expects($this->any())
@@ -199,12 +199,7 @@ class GeneratorTest extends TestCase
         $this->templateRepository
             ->expects($this->once())
             ->method('findOne')
-            ->will($this->returnValue($template));
-
-        $this->twig
-            ->expects($this->once())
-            ->method('render')
-            ->will($this->throwException(new \Twig_Error_Runtime('ERROR')));
+            ->will($this->returnValue($this->template));
 
         $parameters = array(
             'template_id' => '0',
@@ -220,17 +215,14 @@ class GeneratorTest extends TestCase
      */
     public function testTwigError()
     {
-        $template = $this->getMockBuilder(Template::class)
-            ->getMock();
-
-        $template
-            ->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue('0'));
-
         $converter = $this->getMockBuilder(ConverterInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
+
+        $converter
+            ->expects($this->once())
+            ->method('buildContent')
+            ->will($this->returnValue('{{ data.dummy }'));
 
         $this->converterRegistry
             ->expects($this->any())
@@ -242,20 +234,18 @@ class GeneratorTest extends TestCase
             ->method('getConverter')
             ->will($this->returnValue($converter));
 
+        $this->template
+            ->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue('0'));
+
         $this->templateRepository
             ->expects($this->once())
             ->method('findOne')
-            ->will($this->returnValue($template));
-
-        $this->twig
-            ->expects($this->once())
-            ->method('render')
-            ->will($this->throwException(new \Twig_Error('ERROR')));
+            ->will($this->returnValue($this->template));
 
         $parameters = array(
             'template_id' => '0',
-            'data' => array(),
-            'options' => array('format' => 'html'),
         );
 
         $this->generator->generate($parameters);
