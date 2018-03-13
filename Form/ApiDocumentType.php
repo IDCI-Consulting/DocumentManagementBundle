@@ -16,9 +16,10 @@ class ApiDocumentType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('reference')
             ->add('description', TextareaType::class)
-            ->add('data');
+            ->add('data')
+            ->add('format')
+            ->add('reference');
 
         $builder->addEventSubscriber(new DocumentTransformEventSubscriber());
     }

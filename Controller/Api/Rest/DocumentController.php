@@ -74,9 +74,10 @@ class DocumentController extends FOSRestController
      * Add a document.
      *
      * @RequestParam(name="name", strict=true, nullable=false)
-     * @RequestParam(name="reference", strict=true, nullable=false)
      * @RequestParam(name="description", strict=true, nullable=true)
      * @RequestParam(name="data", strict=true, nullable=true)
+     * @RequestParam(name="format", strict=true, nullable=true)
+     * @RequestParam(name="reference", strict=true, nullable=false)
      *
      * @param ParamFetcher $paramFetcher
      *
