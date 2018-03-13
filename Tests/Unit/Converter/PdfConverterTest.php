@@ -52,8 +52,8 @@ class PdfConverterTest extends \PHPUnit_Framework_TestCase
         $expectedContent =<<<EOF
 <html>
     <head>
-        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
-        <style type=\"text/css\">dummy_css</style>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css">dummy_css</style>
     </head>
     <body>dummy_html</body>
 </html>

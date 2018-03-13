@@ -2,6 +2,7 @@ parameters:
     idci_document.generator.class: IDCI\Bundle\DocumentManagementBundle\Generator\Generator
 
     idci_document.converter.registry.class: IDCI\Bundle\DocumentManagementBundle\Converter\ConverterRegistry
+    idci_document.converter.html.class: IDCI\Bundle\DocumentManagementBundle\Converter\HtmlConverter
     idci_document.converter.pdf.class: IDCI\Bundle\DocumentManagementBundle\Converter\PdfConverter
 
     idci_document.model.template.class: IDCI\Bundle\DocumentManagementBundle\Model\Template
@@ -11,7 +12,7 @@ parameters:
 services:
 
     ## Generator
-    tms_document:
+    idci_document.generator:
         class: Tms\Bundle\DocumentBundle\Generator\Generator
         arguments:
             - "@idci_document.repository.template"
@@ -23,6 +24,11 @@ services:
         class: "%idci_document.converter.registry.class%"
 
     ## Converter
+    idci_document.converter.html:
+        class: "%idci_document.converter.html.class%"
+        tags:
+            - { name: idci_document.converter, alias: html }
+
     idci_document.converter.pdf:
         class: "%idci_document.converter.pdf.class%"
         arguments: ["@knp_snappy.pdf"]

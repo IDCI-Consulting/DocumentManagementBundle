@@ -6,37 +6,21 @@
 
 namespace IDCI\Bundle\DocumentManagementBundle\Converter;
 
-use Knp\Snappy\GeneratorInterface;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 
 /**
- * Class PdfConverter
+ * HtmlConverter
  *
  * @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */
-class PdfConverter implements ConverterInterface
+class HtmlConverter implements ConverterInterface
 {
-    /**
-     * @var GeneratorInterface
-     */
-    protected $wkhtmltopdf;
-
-    /**
-     * Constructor
-     *
-     * @param GeneratorInterface $wkhtmltopdf
-     */
-    public function __construct(GeneratorInterface $wkhtmltopdf)
-    {
-        $this->wkhtmltopdf = $wkhtmltopdf;
-    }
-
     /**
      * {@inheritDoc}
      */
     public function convert($content)
     {
-        return $this->wkhtmltopdf->getOutputFromHtml($content);
+        return $content;
     }
 
     /**
@@ -44,7 +28,7 @@ class PdfConverter implements ConverterInterface
      */
     public function getMimeType()
     {
-        return 'application/pdf';
+        return 'text/html';
     }
 
     /**
