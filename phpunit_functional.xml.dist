@@ -19,6 +19,7 @@
     <testsuites>
         <testsuite name="IDCIDocumentManagementBundle functional test suite">
             <directory suffix="Test.php">./Tests/Functional</directory>
+            <exclude>./Tests/Functional/DocumentManagementWebTestCase</exclude>
         </testsuite>
     </testsuites>
 
