@@ -13,11 +13,11 @@ services:
 
     ## Generator
     idci_document.generator:
-        class: Tms\Bundle\DocumentBundle\Generator\Generator
+        class: IDCI\Bundle\DocumentManagementBundle\Generator\Generator
         arguments:
-            - "@idci_document.repository.template"
+            - "@doctrine.orm.entity_manager"
             - "@idci_document.converter.registry"
-            - "@idci_document.twig"
+            - "@twig"
 
     ## Registry
     idci_document.converter.registry:
@@ -34,11 +34,3 @@ services:
         arguments: ["@knp_snappy.pdf"]
         tags:
             - { name: idci_document.converter, alias: pdf }
-
-    ## Twig ##
-    idci_document.twig_array_loader:
-        class: "Twig_Loader_Array"
-
-    idci_document.twig:
-        class: "%twig.class%"
-        arguments: ["@idci_document.twig_array_loader"]

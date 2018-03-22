@@ -27,7 +27,7 @@ class Document
     /**
      * @var string
      */
-    private $format;
+    private $format = 'pdf';
 
     /**
      * @var string
