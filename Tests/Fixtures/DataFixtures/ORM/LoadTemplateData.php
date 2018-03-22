@@ -19,14 +19,14 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
         $template1
             ->setName('Template one')
             ->setDescription('Template one description.')
-            ->setHtml('<html></html>')
+            ->setHtml('Hello world')
             ->setCss('html { background: red; }');
 
         $template2 = new Template();
         $template2
             ->setName('Template two')
             ->setDescription('Template two description.')
-            ->setHtml('<html></html>')
+            ->setHtml('Hello world')
             ->setCss('html { background: blue; }');
 
         $this->loadThirdTemplate($manager);
@@ -54,7 +54,7 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
             'id' => Uuid::fromString('b08c6fff-7dc5-e111-9b21-0800200c9a66'),
             'name' => 'Template three',
             'description' => 'Template three description',
-            'html' => '<html></html>',
+            'html' => 'Hello {{ data.firstname }}',
             'css' => 'html { background: green; }',
             'created_at' => $now->format('Ymd'),
             'updated_at' => $now->format('Ymd'),
