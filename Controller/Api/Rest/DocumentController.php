@@ -28,10 +28,10 @@ class DocumentController extends FOSRestController
      *
      * @return Response
      */
-    public function getDocumentsAction($reference = null)
+    public function getDocumentsAction(ParamFetcher $paramFetcher)
     {
         $view = $this->view(
-            $this->getDoctrine()->getManager()->getRepository(Document::class)->findAll(),
+            $this->getDoctrine()->getManager()->getRepository(Document::class)->findBy($paramFetcher->all()),
             Response::HTTP_OK
         );
 

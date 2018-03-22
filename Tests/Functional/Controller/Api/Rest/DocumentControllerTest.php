@@ -22,7 +22,10 @@ class DocumentControllerTest extends DocumentManagementWebTestCase
 
     public function testGetDocumentsAction()
     {
-        $this->client->request('GET', '/api/documents');
+        $this->client->request('GET', '/api/documents', array(
+            'reference' => 'reference-one',
+        ));
+
         $response = $this->client->getResponse();
 
         $documents = json_decode($response->getContent(), true);
@@ -49,6 +52,7 @@ class DocumentControllerTest extends DocumentManagementWebTestCase
             'description' => 'Document description four',
             'data' => json_encode(array('firstname' => 'Dummy')),
             'reference' => 'document-four',
+            'format' => 'pdf',
         );
 
         $this->client->request('POST', '/api/documents', $params);

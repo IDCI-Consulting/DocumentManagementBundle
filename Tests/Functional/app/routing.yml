@@ -1,5 +1,5 @@
 ---
-tms_task_private_api:
+idci_document:
     prefix:   /api
     resource: "@IDCIDocumentManagementBundle/Resources/config/routing.yml"
     type:     rest

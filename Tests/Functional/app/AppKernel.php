@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             $bundles[] = new FOS\RestBundle\FOSRestBundle();
             $bundles[] = new IDCI\Bundle\DocumentManagementBundle\IDCIDocumentManagementBundle();
             $bundles[] = new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle();
+            $bundles[] = new Knp\Bundle\SnappyBundle\KnpSnappyBundle();
         }
 
         return $bundles;

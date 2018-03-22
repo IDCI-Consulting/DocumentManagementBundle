@@ -5,6 +5,7 @@ namespace IDCI\Bundle\DocumentManagementBundle\Tests\Generator;
 use PHPUnit\Framework\TestCase;
 use Twig\Environment;
 use Twig\Template as TwigTemplate;
+use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 use IDCI\Bundle\DocumentManagementBundle\Exception\MissingGenerationParametersException;
 use IDCI\Bundle\DocumentManagementBundle\Repository\TemplateRepository;
@@ -24,6 +25,11 @@ class GeneratorTest extends TestCase
      * @var Template
      */
     protected $template;
+
+    /**
+     * @var ObjectManager
+     */
+    protected $manager;
 
     /**
      * @var TemplateRepository
@@ -55,10 +61,20 @@ class GeneratorTest extends TestCase
      */
     public function setUp()
     {
+        $this->manager = $this->getMockBuilder(EntityManager::class)
+            ->disableOriginalConstructor()
+            ->setMethods(array('getRepository'))
+            ->getMock();
+
         $this->templateRepository = $this->getMockBuilder(TemplateRepository::class)
             ->disableOriginalConstructor()
-            ->setMethods(array('findOne'))
+            ->setMethods(array('find'))
             ->getMock();
+
+        $this->manager
+            ->expects($this->once())
+            ->method('getRepository')
+            ->will($this->returnValue($this->templateRepository));
 
         $this->converterRegistry = $this->getMockBuilder(ConverterRegistryInterface::class)
             ->disableOriginalConstructor()
@@ -71,7 +87,7 @@ class GeneratorTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->generator = new Generator($this->templateRepository, $this->converterRegistry, $this->twig);
+        $this->generator = new Generator($this->manager, $this->converterRegistry, $this->twig);
     }
 
     /**
@@ -89,7 +105,7 @@ class GeneratorTest extends TestCase
 
         $this->templateRepository
             ->expects($this->once())
-            ->method('findOne')
+            ->method('find')
             ->will($this->returnValue($this->template));
 
         $this->converterRegistry
@@ -131,7 +147,7 @@ class GeneratorTest extends TestCase
     {
         $this->templateRepository
             ->expects($this->once())
-            ->method('findOne')
+            ->method('find')
             ->will($this->returnValue(false));
 
         $parameters = array(
@@ -150,7 +166,7 @@ class GeneratorTest extends TestCase
     {
         $this->templateRepository
             ->expects($this->once())
-            ->method('findOne')
+            ->method('find')
             ->will($this->returnValue($this->template));
 
         $this->converterRegistry
@@ -198,7 +214,7 @@ class GeneratorTest extends TestCase
 
         $this->templateRepository
             ->expects($this->once())
-            ->method('findOne')
+            ->method('find')
             ->will($this->returnValue($this->template));
 
         $parameters = array(
@@ -241,7 +257,7 @@ class GeneratorTest extends TestCase
 
         $this->templateRepository
             ->expects($this->once())
-            ->method('findOne')
+            ->method('find')
             ->will($this->returnValue($this->template));
 
         $parameters = array(

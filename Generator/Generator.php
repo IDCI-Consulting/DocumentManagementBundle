@@ -7,11 +7,13 @@ namespace IDCI\Bundle\DocumentManagementBundle\Generator;
 
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\Common\Persistence\ObjectManager;
 use \Twig_Environment;
 use Twig\Error\RuntimeError;
 use Twig\Error\Error;
 use IDCI\Bundle\DocumentManagementBundle\Converter\ConverterRegistryInterface;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
+use IDCI\Bundle\DocumentManagementBundle\Model\Document;
 use IDCI\Bundle\DocumentManagementBundle\Repository\TemplateRepository;
 
 /**
@@ -21,8 +23,8 @@ use IDCI\Bundle\DocumentManagementBundle\Repository\TemplateRepository;
  */
 class Generator implements GeneratorInterface
 {
-    /** @var TemplateRepository */
-    private $templateRepository;
+    /** @var ObjectManager */
+    private $manager;
 
     /** @var ConverterRegistryInterface */
     private $converterRegistry;
@@ -33,16 +35,16 @@ class Generator implements GeneratorInterface
     /**
      * Constructor.
      *
-     * @param TemplateRepository         $templateRepository
+     * @param ObjectManager              $manager,
      * @param ConverterRegistryInterface $converterRegistry
      * @param \Twig_Environment          $twig
      */
     public function __construct(
-        TemplateRepository         $templateRepository,
+        ObjectManager              $manager,
         ConverterRegistryInterface $converterRegistry,
         \Twig_Environment          $twig
     ) {
-        $this->templateRepository = $templateRepository;
+        $this->manager = $manager;
         $this->converterRegistry = $converterRegistry;
         $this->twig = $twig;
     }
@@ -57,7 +59,9 @@ class Generator implements GeneratorInterface
         $parameters = $resolver->resolve($parameters);
         $format = $parameters['options']['format'];
 
-        $template = $this->templateRepository->findOne(array('id' => $parameters['template_id']));
+        $template = $this->manager
+            ->getRepository(Template::class)
+            ->find($parameters['template_id']);
 
         if (!$template) {
             throw new \UnexpectedValueException(sprintf(
@@ -80,6 +84,44 @@ class Generator implements GeneratorInterface
         );
 
         return $this->converterRegistry->getConverter($format)->convert($html);
+    }
+
+    /**
+     * Generate a document.
+     *
+     * @param Document $document
+     *
+     * @return string
+     */
+    public function generateDocument(Document $document)
+    {
+        $parameters = array(
+            'template_id' => $document->getTemplate()->getId(),
+            'data' => $document->getData(),
+            'options' => array('format' => $document->getFormat()),
+        );
+
+        return $this->generate($parameters);
+    }
+
+    /**
+     * Generate a document from a template with given data and options.
+     *
+     * @param Template $template The template
+     * @param mixed    $data     The data to merge could be a json or and array.
+     * @param mixed    $options  The options could be a json or and array.
+     *
+     * @return string
+     */
+    public function generateDocumentFromTemplate(Template $template, $data, $options)
+    {
+        $parameters = array(
+            'template_id' => $template->getId(),
+            'data' => $data,
+            'options' => $options,
+        );
+
+        return $this->generate($parameters);
     }
 
     /**
@@ -144,25 +186,11 @@ class Generator implements GeneratorInterface
         $resolver
             ->setRequired(array('template_id'))
             ->setDefaults(array(
-                'data'       => array(),
-                'options'    => array('format' => 'pdf'),
+                'data'    => array(),
+                'options' => array('format' => 'pdf'),
             ))
             ->setAllowedTypes('template_id', array('int', 'string'))
-            ->setAllowedTypes('data',        array('string', 'array'))
-            ->setAllowedTypes('options',     array('string', 'array'))
-            ->setNormalizer('data', function (Options $options, $value) {
-                if (is_string($value)) {
-                    $value = json_decode($value, true);
-                }
-
-                return $value;
-            })
-            ->setNormalizer('options', function (Options $options, $value) {
-                if (is_string($value)) {
-                    $value = json_decode($value, true);
-                }
-
-                return $value;
-            });
+            ->setAllowedTypes('data',        array('array'))
+            ->setAllowedTypes('options',     array('array'));
     }
 }
