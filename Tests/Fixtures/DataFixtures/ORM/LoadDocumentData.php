@@ -26,7 +26,7 @@ class LoadDocumentData extends AbstractFixture implements OrderedFixtureInterfac
             ->setData(array(
                 'firstname' => 'Foo',
             ))
-            ->setReference('document-one')
+            ->setReference('reference-one')
             ->setTemplate($template);
 
         $document2 = new Document();
@@ -36,7 +36,7 @@ class LoadDocumentData extends AbstractFixture implements OrderedFixtureInterfac
             ->setData(array(
                 'firstname' => 'Bar',
             ))
-            ->setReference('document-two')
+            ->setReference('reference-one')
             ->setTemplate($template);
 
         $manager->persist($document1);
@@ -56,7 +56,7 @@ class LoadDocumentData extends AbstractFixture implements OrderedFixtureInterfac
     protected function loadThirdDocument(ObjectManager $manager, Template $template)
     {
         $now = new \Datetime('now');
-        $sql = "INSERT INTO document VALUES (:id, :template_id, :name, :description, :data, :reference, :created_at, :updated_at);";
+        $sql = "INSERT INTO document VALUES (:id, :template_id, :name, :description, :data, :format, :reference, :created_at, :updated_at);";
 
         $stmt = $manager->getConnection()->prepare($sql);
         $stmt->execute(array(
@@ -65,7 +65,8 @@ class LoadDocumentData extends AbstractFixture implements OrderedFixtureInterfac
             'name' => 'Document three',
             'description' => 'Document three description',
             'data' => json_encode(array('firstname' => 'Acme')),
-            'reference' => 'document-three',
+            'format' => 'pdf',
+            'reference' => 'reference-one',
             'created_at' => $now->format('Ymd'),
             'updated_at' => $now->format('Ymd'),
         ));

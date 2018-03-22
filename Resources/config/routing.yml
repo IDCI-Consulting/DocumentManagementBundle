@@ -8,3 +8,8 @@ documents:
     name_prefix: api_documents_
     resource:    IDCI\Bundle\DocumentManagementBundle\Controller\Api\Rest\DocumentController
     type:        rest
+
+generate:
+    name_prefix: api_generate_
+    resource:    "@IDCIDocumentManagementBundle/Controller/Api/GeneratorController.php"
+    type:        annotation

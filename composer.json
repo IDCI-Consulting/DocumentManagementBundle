@@ -17,17 +17,18 @@
         }
     ],
     "require": {
+        "php": ">=5.5.9",
         "behat/transliterator": "~1.1",
-        "doctrine/doctrine-bundle": "^1.8",
-        "doctrine/orm": "^2.5",
-        "friendsofsymfony/rest-bundle": "~1.5",
         "h4cc/wkhtmltopdf-amd64": "~0.12",
         "h4cc/wkhtmltopdf-i386": "~0.12",
-        "jms/serializer-bundle": "^1.1",
         "knplabs/knp-snappy-bundle": "~1.5",
         "knplabs/knp-gaufrette-bundle": "~0.5",
-        "php": ">=5.5.9",
+        "doctrine/doctrine-bundle": "^1.8",
+        "doctrine/orm": "^2.5",
         "ramsey/uuid-doctrine": "~1.4",
+        "friendsofsymfony/rest-bundle": "~1.5",
+        "jms/serializer-bundle": "^1.1",
+        "symfony/options-resolver": "^3.4",
         "symfony/form": "^3.4",
         "twig/twig": "~1.0"
     },

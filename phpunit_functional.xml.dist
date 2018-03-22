@@ -10,11 +10,16 @@
         processIsolation="false"
         stopOnFailure="false"
         syntaxCheck="false"
-        bootstrap="./Tests/Unit/autoload.php"
+        bootstrap="./Tests/Functional/autoload.php"
 >
+    <php>
+        <server name="KERNEL_DIR" value="Tests/Functional/app" />
+    </php>
+
     <testsuites>
-        <testsuite name="IDCIDocumentManagementBundle unit test suite">
-            <directory suffix="Test.php">./Tests/Unit</directory>
+        <testsuite name="IDCIDocumentManagementBundle functional test suite">
+            <directory suffix="Test.php">./Tests/Functional</directory>
+            <exclude>./Tests/Functional/DocumentManagementWebTestCase</exclude>
         </testsuite>
     </testsuites>
 

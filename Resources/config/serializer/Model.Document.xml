@@ -22,12 +22,17 @@
         <property
             expose="true"
             groups="document"
-            name="html" />
+            name="data" />
 
         <property
             expose="true"
             groups="document"
-            name="css" />
+            name="format" />
+
+        <property
+            expose="true"
+            groups="document"
+            name="reference" />
 
         <property
             expose="true"

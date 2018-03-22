@@ -6,12 +6,12 @@ doctrine:
 
     orm:
         mappings:
-            IDCIDocumentManagementBundle: {prefix: "IDCI\\Bundle\\DocumentManagementBundle\\Model"}
+            IDCIDocumentManagementBundle: { prefix: "IDCI\\Bundle\\DocumentManagementBundle\\Model" }
 
 fos_rest:
     param_fetcher_listener: true
     routing_loader:
-        default_format: null
+        default_format: json
     view:
         default_engine: twig
         force_redirects:
@@ -22,7 +22,6 @@ fos_rest:
             html: true
         templating_formats:
             html: false
-        view_response_listener: 'force'
         failed_validation: HTTP_BAD_REQUEST
     exception:
         codes: ~
@@ -33,4 +32,15 @@ fos_rest:
             xml: fos_rest.decoder.xml
     format_listener:
         rules:
-            - fallback_format: json
+            - { path: '^/api/(templates|documents)', fallback_format: 'json', prefer_extension: false }
+            - { path: '^/', stop: true }
+
+knp_snappy:
+    pdf:
+        enabled: true
+        binary: "%kernel.root_dir%/../vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64"
+        options:
+            margin_bottom: 0
+            margin_left: 0
+            margin_right: 0
+            margin_top: 0

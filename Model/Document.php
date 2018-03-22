@@ -27,6 +27,11 @@ class Document
     /**
      * @var string
      */
+    private $format = 'pdf';
+
+    /**
+     * @var string
+     */
     private $reference;
 
     /**
@@ -51,7 +56,7 @@ class Document
      */
     public function __toString()
     {
-        return $this->getName();
+        return sprintf('%s.%s', $this->getName(), $this->getFormat());
     }
 
     /**
@@ -154,13 +159,37 @@ class Document
     /**
      * Set data.
      *
-     * @param array data
+     * @param array $data
      *
      * @return Document
      */
     public function setData(array $data)
     {
         $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * Get format.
+     *
+     * @return string
+     */
+    public function getFormat()
+    {
+        return $this->format;
+    }
+
+    /**
+     * Set format.
+     *
+     * @param string $format
+     *
+     * @return Document
+     */
+    public function setFormat($format)
+    {
+        $this->format = $format;
 
         return $this;
     }

@@ -42,3 +42,7 @@ phpcs-fix:
 .PHONY: phpunit
 phpunit: ./vendor/bin/phpunit ./phpunit.xml.dist
 	docker-compose run --rm $(target_container) ./vendor/bin/phpunit --coverage-text $(options)
+
+.PHONY: phpunit-functional
+phpunit-functional: ./vendor/bin/phpunit ./phpunit_functional.xml.dist
+	docker-compose run --rm $(target_container) ./vendor/bin/phpunit -c phpunit_functional.xml.dist --coverage-text $(options)
