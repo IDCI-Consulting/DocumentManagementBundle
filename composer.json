@@ -23,7 +23,7 @@
         "friendsofsymfony/rest-bundle": "~1.5",
         "h4cc/wkhtmltopdf-amd64": "~0.12",
         "h4cc/wkhtmltopdf-i386": "~0.12",
-        "jms/serializer-bundle": "^2.3",
+        "jms/serializer-bundle": "^1.1",
         "knplabs/knp-snappy-bundle": "~1.5",
         "knplabs/knp-gaufrette-bundle": "~0.5",
         "php": ">=5.5.9",
