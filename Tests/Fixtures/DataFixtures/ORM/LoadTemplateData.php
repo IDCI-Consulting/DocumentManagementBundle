@@ -47,12 +47,13 @@ class LoadTemplateData extends AbstractFixture implements OrderedFixtureInterfac
     private function loadThirdTemplate(ObjectManager $manager)
     {
         $now = new \Datetime('now');
-        $sql = "INSERT INTO template VALUES (:id, :name, :description, :html, :css, :created_at, :updated_at);";
+        $sql = "INSERT INTO template VALUES (:id, :name, :slug, :description, :html, :css, :created_at, :updated_at);";
 
         $stmt = $manager->getConnection()->prepare($sql);
         $stmt->execute(array(
             'id' => Uuid::fromString('b08c6fff-7dc5-e111-9b21-0800200c9a66'),
             'name' => 'Template three',
+            'slug' => 'template-slug',
             'description' => 'Template three description',
             'html' => 'Hello {{ data.firstname }}',
             'css' => 'html { background: green; }',

@@ -20,6 +20,11 @@ class Template
     /**
      * @var string
      */
+    private $slug;
+
+    /**
+     * @var string
+     */
     private $description;
 
     /**
@@ -64,6 +69,10 @@ class Template
         $this
             ->setCreatedAt($now)
             ->setUpdatedAt($now);
+
+        if (null === $this->getSlug()) {
+            $this->setSlug($this->generateSlug());
+        }
     }
 
     /**
@@ -123,6 +132,30 @@ class Template
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get slug.
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set slug.
+     *
+     * @param string slug
+     *
+     * @return Template
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
 
         return $this;
     }
@@ -283,6 +316,18 @@ class Template
     public function getDocuments()
     {
         return $this->documents;
+    }
+
+    /**
+     * Generate the slug (Using the template name)
+     *
+     * @return string
+     */
+    protected function generateSlug()
+    {
+        $slug = Transliterator::transliterate($this->getName());
+
+        return Transliterator::urlize($slug);
     }
 }
 

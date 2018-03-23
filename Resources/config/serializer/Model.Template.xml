@@ -15,6 +15,11 @@
             groups="template" />
 
         <property
+            name="slug"
+            expose="true"
+            groups="template" />
+
+        <property
             expose="true"
             groups="template"
             name="description" />
