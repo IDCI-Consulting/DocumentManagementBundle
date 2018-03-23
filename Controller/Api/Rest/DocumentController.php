@@ -2,13 +2,15 @@
 
 namespace IDCI\Bundle\DocumentManagementBundle\Controller\Api\Rest;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Doctrine\DBAL\Types\ConversionException;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
-use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Request\ParamFetcher;
 use JMS\Serializer\SerializationContext;
 use IDCI\Bundle\DocumentManagementBundle\Model\Document;
@@ -99,6 +101,12 @@ class DocumentController extends FOSRestController
         if ($form->isSubmitted() && $form->isValid()) {
             $manager->persist($document);
             $manager->flush();
+
+            $view->setHeader(
+                'Location',
+                $this->generateUrl('api_documents_get_document', array('uuid' => $document->getId())),
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
 
             $view->setStatusCode(Response::HTTP_CREATED);
 

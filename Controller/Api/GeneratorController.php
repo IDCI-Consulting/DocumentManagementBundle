@@ -17,8 +17,6 @@ use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 
 /**
  * GeneratorController
- *
- * @Route(name="idci_document_")
  */
 class GeneratorController extends Controller
 {
@@ -26,7 +24,7 @@ class GeneratorController extends Controller
      * HTTP Response with header filed Content-Type as The MIME type of the document generated.
      * Allow to show the document generated directly in the browser.
      *
-     * @Route("/documents/{id}/generate", name="generate_document")
+     * @Route("/documents/{id}/generate", name="idci_document_generate_document")
      * @Method({"GET"})
      *
      * @param Request $request Data and options.
@@ -64,7 +62,7 @@ class GeneratorController extends Controller
      * HTTP Response with header filed Content-Type as The MIME type of the document generated.
      * Allow to show the document generated from a template directly in the browser.
      *
-     * @Route("/templates/{id}/generate", name="generate_document_from_template")
+     * @Route("/templates/{id}/generate", name="idci_document_generate_document_from_template")
      * @Method({"GET"})
      *
      * @param Request $request Data and options.
