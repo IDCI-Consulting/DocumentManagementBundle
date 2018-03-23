@@ -20,7 +20,7 @@
 
         <field name="name" column="name" type="string" />
         <field name="slug" column="slug" type="string" unique="true"/>
-        <field name="description" column="description" type="text" />
+        <field name="description" column="description" nullable="true" type="text" />
         <field name="html" column="html" type="text" />
         <field name="css" column="css" type="text" />
         <field name="createdAt" column="created_at" type="datetime" />
