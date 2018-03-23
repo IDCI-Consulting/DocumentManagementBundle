@@ -53,9 +53,11 @@ class DocumentControllerTest extends DocumentManagementWebTestCase
             'data' => json_encode(array('firstname' => 'Dummy')),
             'reference' => 'document-four',
             'format' => 'pdf',
+            'template' => 'template-slug',
         );
 
         $this->client->request('POST', '/api/documents', $params);
+        $response = $this->client->getResponse();
 
         $document = $this
             ->manager
@@ -63,7 +65,7 @@ class DocumentControllerTest extends DocumentManagementWebTestCase
             ->findOneByReference($params['reference']);
 
         $this->assertEquals($params['description'], $document->getDescription());
-        $this->assertEquals(Response::HTTP_CREATED, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
     }
 
     public function testDeleteDocumentAction()

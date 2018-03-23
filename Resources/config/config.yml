@@ -32,6 +32,7 @@ fos_rest:
             xml: fos_rest.decoder.xml
     format_listener:
         rules:
+            - { path: '/generate$', stop: true }
             - { path: '^/api/(templates|documents)', fallback_format: 'json', prefer_extension: false }
             - { path: '^/', stop: true }
 

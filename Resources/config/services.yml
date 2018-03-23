@@ -34,3 +34,8 @@ services:
         arguments: ["@knp_snappy.pdf"]
         tags:
             - { name: idci_document.converter, alias: pdf }
+
+    ## FormType
+    IDCI\Bundle\DocumentManagementBundle\Form\ApiDocumentType:
+        arguments: ['@doctrine.orm.entity_manager']
+        tags: [form.type]

@@ -78,6 +78,7 @@ class DocumentController extends FOSRestController
      * @RequestParam(name="data", strict=true, nullable=true)
      * @RequestParam(name="format", strict=true, nullable=true)
      * @RequestParam(name="reference", strict=true, nullable=false)
+     * @RequestParam(name="template", strict=true, nullable=false)
      *
      * @param ParamFetcher $paramFetcher
      *

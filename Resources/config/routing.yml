@@ -1,15 +1,12 @@
 ---
 templates:
-    name_prefix: api_templates_
-    resource:    IDCI\Bundle\DocumentManagementBundle\Controller\Api\Rest\TemplateController
-    type:        rest
+    resource: IDCI\Bundle\DocumentManagementBundle\Controller\Api\Rest\TemplateController
+    type:     rest
 
 documents:
-    name_prefix: api_documents_
-    resource:    IDCI\Bundle\DocumentManagementBundle\Controller\Api\Rest\DocumentController
-    type:        rest
+    resource: IDCI\Bundle\DocumentManagementBundle\Controller\Api\Rest\DocumentController
+    type:     rest
 
 generate:
-    name_prefix: api_generate_
-    resource:    "@IDCIDocumentManagementBundle/Controller/Api/GeneratorController.php"
-    type:        annotation
+    resource: "@IDCIDocumentManagementBundle/Controller/Api/GeneratorController.php"
+    type:     annotation
