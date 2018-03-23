@@ -10,13 +10,13 @@ Add dependencies in your `composer.json` file:
 ```json
 "require": {
     ...
-    "idci/document-management-bundle": "dev-master"
+    "idci/document-management-bundle": "~1.0"
 },
 ```
 
 Install these new dependencies in your application using composer:
 ```sh
-$ php composer.phar update
+$ make composer-update
 ```
 
 Register needed bundles in your application kernel:
@@ -28,6 +28,9 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
+        new FOS\RestBundle\FOSRestBundle(),
+        new JMS\SerializerBundle\JMSSerializerBundle(),
+        new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
         new IDCI\Bundle\DocumentManagementBundle\IDCIDocumentManagementBundle(),
     );
 }
@@ -41,5 +44,31 @@ imports:
     - { resource: @IDCIDocumentManagementBundle/Resources/config/config.yml }
 ```
 
+Import the bundle routing:
+```yml
+# app/config/routng.yml
+
+idci_document_api:
+    resource: "@IDCIDocumentManagementBundle/Resources/config/routing.yml"
+    prefix: /api
+```
+
 That's it, you are ready to use it.
 
+Tests
+-----
+
+Install bundle dependencies:
+```sh
+$ make composer-update
+```
+
+To execute unit tests:
+```sh
+$ make phpunit
+```
+
+To execute functional tests:
+```sh
+$ make phpunit-functional
+```
