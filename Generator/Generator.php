@@ -107,7 +107,7 @@ class Generator implements GeneratorInterface
     /**
      * Generate a document from a template with given data and options.
      *
-     * @param Template $template The template
+     * @param Template $template The template.
      * @param mixed    $data     The data to merge could be a json or and array.
      * @param mixed    $options  The options could be a json or and array.
      *

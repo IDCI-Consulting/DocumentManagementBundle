@@ -81,14 +81,10 @@ class DocumentTransformEventSubscriber implements EventSubscriberInterface
      */
     protected function getTemplateId($id)
     {
-        if (Uuid::isValid($id)) {
-            return $id;
-        }
-
         $template = $this
             ->manager
             ->getRepository(Template::class)
-            ->findOneBy(array('slug' => $id));
+            ->findByIdOrSlug($id);
 
         if (null === $template) {
             throw new NotFoundHttpException(sprintf(

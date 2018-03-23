@@ -43,6 +43,18 @@ class TemplateControllerTest extends DocumentManagementWebTestCase
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
+    public function testGetTemplateActionBySlug()
+    {
+        $this->client->request('GET', '/api/templates/template-slug');
+        $response = $this->client->getResponse();
+
+        $template = json_decode($response->getContent(), true);
+
+        $this->assertEquals('b08c6fff-7dc5-e111-9b21-0800200c9a66', $template['id']);
+        $this->assertEquals('template-slug', $template['slug']);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
     public function testDeleteTemplateAction()
     {
         $templates = $this

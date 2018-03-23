@@ -8,6 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\DBAL\Types\ConversionException;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
+use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Request\ParamFetcher;
 use JMS\Serializer\SerializationContext;
 use IDCI\Bundle\DocumentManagementBundle\Model\Document;
@@ -15,6 +16,8 @@ use IDCI\Bundle\DocumentManagementBundle\Form\ApiDocumentType;
 
 /**
  * DocumentController
+ *
+ * @Route(name="api_documents_")
  */
 class DocumentController extends FOSRestController
 {

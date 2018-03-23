@@ -11,11 +11,14 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Ramsey\Uuid\Uuid;
 use IDCI\Bundle\DocumentManagementBundle\Model\Document;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 
 /**
  * GeneratorController
+ *
+ * @Route(name="idci_document_")
  */
 class GeneratorController extends Controller
 {
@@ -23,7 +26,7 @@ class GeneratorController extends Controller
      * HTTP Response with header filed Content-Type as The MIME type of the document generated.
      * Allow to show the document generated directly in the browser.
      *
-     * @Route("/documents/{id}/generate", name="idci_document_generate_document")
+     * @Route("/documents/{id}/generate", name="generate_document")
      * @Method({"GET"})
      *
      * @param Request $request Data and options.
@@ -61,7 +64,7 @@ class GeneratorController extends Controller
      * HTTP Response with header filed Content-Type as The MIME type of the document generated.
      * Allow to show the document generated from a template directly in the browser.
      *
-     * @Route("/templates/{id}/generate", name="idci_document_generate_document_from_template")
+     * @Route("/templates/{id}/generate", name="generate_document_from_template")
      * @Method({"GET"})
      *
      * @param Request $request Data and options.
@@ -69,7 +72,7 @@ class GeneratorController extends Controller
      *
      * @return Response
      */
-    public function generateDocumentFromTemplateAction(Request $request, Template $template)
+    public function generateDocumentFromTemplateAction(Request $request, $id)
     {
         $response = new Response();
 
@@ -81,6 +84,15 @@ class GeneratorController extends Controller
                 'data' => $request->query->get('data'),
                 'options' => $request->query->get('options'),
             ));
+
+            $template = $this->getDoctrine()->getManager()->getRepository(Template::class)->findByIdOrSlug($id);
+
+            if (null === $template) {
+                throw new NotFoundHttpException(sprintf(
+                    'Template with slug %s not found',
+                    $id
+                ));
+            }
 
             $content = $this->get('idci_document.generator')->generateDocumentFromTemplate(
                 $template,

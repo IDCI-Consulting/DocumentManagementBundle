@@ -28,4 +28,16 @@ class GeneratorControllerTest extends DocumentManagementWebTestCase
 
         $this->assertEquals('application/pdf', $response->headers->get('Content-Type'));
     }
+
+    public function testGenerateDocumentFromTemplateBySlug()
+    {
+        $params = array(
+            'data' => json_encode(array('firstname' => 'dummy')),
+        );
+
+        $this->client->request('GET', '/api/templates/template-slug/generate', $params);
+        $response = $this->client->getResponse();
+
+        $this->assertEquals('application/pdf', $response->headers->get('Content-Type'));
+    }
 }
