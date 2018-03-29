@@ -94,7 +94,7 @@ class DocumentController extends FOSRestController
         $manager = $this->getDoctrine()->getManager();
         $document = new Document();
         $form = $this->createForm(ApiDocumentType::class, $document);
-        $view = $this->view(array());
+        $view = $this->view();
 
         $form->submit($paramFetcher->all());
 
@@ -102,13 +102,17 @@ class DocumentController extends FOSRestController
             $manager->persist($document);
             $manager->flush();
 
-            $view->setHeader(
-                'Location',
-                $this->generateUrl('api_documents_get_document', array('uuid' => $document->getId())),
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
-
-            $view->setStatusCode(Response::HTTP_CREATED);
+            $view
+                ->setHeader(
+                    'Location',
+                    $this->generateUrl('api_documents_get_document', array('uuid' => $document->getId())),
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                )
+                ->setData(array(
+                    'id' => $document->getId(),
+                ))
+                ->setStatusCode(Response::HTTP_CREATED)
+            ;
 
             return $this->handleView($view);
         }
@@ -126,7 +130,7 @@ class DocumentController extends FOSRestController
     {
         $manager = $this->getDoctrine()->getManager();
         $document = $manager->getRepository(Document::class)->find($uuid);
-        $view = $this->view(array());
+        $view = $this->view();
 
         if (!$document) {
             $view->setStatusCode(Response::HTTP_NOT_FOUND);
