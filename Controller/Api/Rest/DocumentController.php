@@ -28,6 +28,8 @@ class DocumentController extends FOSRestController
      * Retrieve a set of documents.
      *
      * @QueryParam(name="reference", nullable=true, description="(optional) Reference")
+     * @QueryParam(name="name", nullable=true, description="(optional) Name")
+     * @QueryParam(name="templateId", nullable=true, description="(optional) Template id")
      *
      * @param string reference
      *
@@ -35,8 +37,15 @@ class DocumentController extends FOSRestController
      */
     public function getDocumentsAction(ParamFetcher $paramFetcher)
     {
+        $criteria = [];
+        foreach (['reference', 'name', 'templateId'] as $field) {
+            if (null !== $paramFetcher->get($field)) {
+                $criteria[$field] = $paramFetcher->get($field);
+            }
+        }
+
         $view = $this->view(
-            $this->getDoctrine()->getManager()->getRepository(Document::class)->findBy($paramFetcher->all()),
+            $this->getDoctrine()->getManager()->getRepository(Document::class)->findBy($criteria),
             Response::HTTP_OK
         );
 
