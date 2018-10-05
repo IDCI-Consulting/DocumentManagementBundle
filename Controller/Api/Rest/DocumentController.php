@@ -4,17 +4,18 @@ namespace IDCI\Bundle\DocumentManagementBundle\Controller\Api\Rest;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+use Doctrine\DBAL\Types;
+use Doctrine\DBAL\Types\ConversionException\ConversionException;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
+use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Request\ParamFetcher;
+use IDCI\Bundle\DocumentManagementBundle\Form\ApiDocumentType;
+use IDCI\Bundle\DocumentManagementBundle\Model\Document;
+use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Doctrine\DBAL\Types\ConversionException;
-use FOS\RestBundle\Controller\Annotations\QueryParam;
-use FOS\RestBundle\Controller\Annotations\RequestParam;
-use FOS\RestBundle\Request\ParamFetcher;
-use JMS\Serializer\SerializationContext;
-use IDCI\Bundle\DocumentManagementBundle\Model\Document;
-use IDCI\Bundle\DocumentManagementBundle\Form\ApiDocumentType;
 
 /**
  * DocumentController
@@ -29,7 +30,7 @@ class DocumentController extends FOSRestController
      *
      * @QueryParam(name="reference", nullable=true, description="(optional) Reference")
      * @QueryParam(name="name", nullable=true, description="(optional) Name")
-     * @QueryParam(name="templateId", nullable=true, description="(optional) Template id")
+     * @QueryParam(name="template", nullable=true, description="(optional) Template")
      *
      * @param string reference
      *
@@ -38,7 +39,7 @@ class DocumentController extends FOSRestController
     public function getDocumentsAction(ParamFetcher $paramFetcher)
     {
         $criteria = [];
-        foreach (['reference', 'name', 'templateId'] as $field) {
+        foreach (['reference', 'name', 'template'] as $field) {
             if (null !== $paramFetcher->get($field)) {
                 $criteria[$field] = $paramFetcher->get($field);
             }
