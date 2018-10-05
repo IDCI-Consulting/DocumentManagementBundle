@@ -38,14 +38,10 @@ class DocumentController extends FOSRestController
     public function getDocumentsAction(ParamFetcher $paramFetcher)
     {
         $criteria = [];
-        if (null !== $paramFetcher->get('reference')) {
-            $criteria['reference'] = $paramFetcher->get('reference');
-        }
-        if (null !== $paramFetcher->get('name')) {
-            $criteria['name'] = $paramFetcher->get('name');
-        }
-        if (null !== $paramFetcher->get('templateId')) {
-            $criteria['templateId'] = $paramFetcher->get('templateId');
+        foreach (['reference', 'name', 'templateId'] as $field) {
+            if (null !== $paramFetcher->get($field)) {
+                $criteria[$field] = $paramFetcher->get($field);
+            }
         }
 
         $view = $this->view(
