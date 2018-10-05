@@ -34,6 +34,13 @@
             groups="document"
             name="reference" />
 
+        <virtual-property
+            expose="true"
+            groups="document"
+            expression="object.getTemplate().getId()"
+            name="template"
+            type="string" />
+
         <property
             expose="true"
             groups="document"
