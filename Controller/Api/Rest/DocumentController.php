@@ -31,6 +31,8 @@ class DocumentController extends FOSRestController
      * @QueryParam(name="reference", nullable=true, description="(optional) Reference")
      * @QueryParam(name="name", nullable=true, description="(optional) Name")
      * @QueryParam(name="template", nullable=true, description="(optional) Template")
+     * @QueryParam(name="limit", nullable=true, description="(optional) Limit", default="100")
+     * @QueryParam(name="page", nullable=true, description="(optional) Page", default="0")
      *
      * @param string reference
      *
@@ -45,8 +47,11 @@ class DocumentController extends FOSRestController
             }
         }
 
+        $limit = (int) $paramFetcher->get('limit');
+        $offset = (int) $limit * $paramFetcher->get('page');
+
         $view = $this->view(
-            $this->getDoctrine()->getManager()->getRepository(Document::class)->findBy($criteria),
+            $this->getDoctrine()->getManager()->getRepository(Document::class)->findBy($criteria, null, $limit, $offset),
             Response::HTTP_OK
         );
 

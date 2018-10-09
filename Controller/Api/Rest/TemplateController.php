@@ -6,6 +6,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\DBAL\Types\ConversionException;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Request\ParamFetcher;
@@ -24,12 +25,18 @@ class TemplateController extends FOSRestController
      * [GET] /api/templates
      * Retrieve a set of templates.
      *
+     * @QueryParam(name="limit", nullable=true, description="(optional) Limit", default="100")
+     * @QueryParam(name="page", nullable=true, description="(optional) Page", default="0")
+     *
      * @return Response
      */
-    public function getTemplatesAction()
+    public function getTemplatesAction(ParamFetcher $paramFetcher)
     {
+        $limit = (int) $paramFetcher->get('limit');
+        $offset = (int) $limit * $paramFetcher->get('page');
+
         $view = $this->view(
-            $this->getDoctrine()->getManager()->getRepository(Template::class)->findAll(),
+            $this->getDoctrine()->getManager()->getRepository(Template::class)->findBy([], null, $limit, $offset),
             Response::HTTP_OK
         );
 
