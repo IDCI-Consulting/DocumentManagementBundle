@@ -2,10 +2,6 @@
 
 namespace IDCI\Bundle\DocumentManagementBundle\Controller\Api\Rest;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
-use Doctrine\DBAL\Types;
-use Doctrine\DBAL\Types\ConversionException\ConversionException;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -13,12 +9,12 @@ use FOS\RestBundle\Request\ParamFetcher;
 use IDCI\Bundle\DocumentManagementBundle\Form\ApiDocumentType;
 use IDCI\Bundle\DocumentManagementBundle\Model\Document;
 use JMS\Serializer\SerializationContext;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * DocumentController
+ * DocumentController.
  *
  * @Route(name="api_documents_")
  */
@@ -134,6 +130,55 @@ class DocumentController extends FOSRestController
     }
 
     /**
+     * [PATCH] /api/documents/{uuid}
+     * Add a document.
+     *
+     * @RequestParam(name="name", strict=true, nullable=true)
+     * @RequestParam(name="description", strict=true, nullable=true)
+     * @RequestParam(name="data", strict=true, nullable=true)
+     * @RequestParam(name="format", strict=true, nullable=true)
+     * @RequestParam(name="reference", strict=true, nullable=true)
+     *
+     * @param ParamFetcher $paramFetcher
+     *
+     * @return Response
+     */
+    public function patchDocumentAction($uuid, ParamFetcher $paramFetcher)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $document = $manager->getRepository(Document::class)->find($uuid);
+        $view = $this->view();
+
+        if (!$document) {
+            $view->setStatusCode(Response::HTTP_NOT_FOUND);
+
+            return $this->handleView($view);
+        }
+
+        $form = $this->createForm(ApiDocumentType::class, $document);
+
+        // Remove null values
+        $parameters = array_filter($paramFetcher->all());
+
+        foreach ($parameters as $parameterName => $parameterValue) {
+            call_user_func(array($document, sprintf('set%s', ucfirst($parameterName))), $parameterValue);
+        }
+
+        $form->submit($document);
+        if ($form->isValid()) {
+            $manager->flush();
+
+            $view->setStatusCode(Response::HTTP_NO_CONTENT);
+
+            return $this->handleView($view);
+        }
+
+        $view->setStatusCode(Response::HTTP_BAD_REQUEST);
+
+        return $this->handleView($view);
+    }
+
+    /**
      * [DELETE] /api/documents/{uuid}
      * Delete a document.
      *
@@ -161,4 +206,3 @@ class DocumentController extends FOSRestController
         return $this->handleView($view);
     }
 }
-

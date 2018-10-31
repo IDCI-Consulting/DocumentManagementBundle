@@ -2,13 +2,13 @@
 
 namespace IDCI\Bundle\DocumentManagementBundle\Form\EventListener;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use IDCI\Bundle\DocumentManagementBundle\Model\Document;
+use IDCI\Bundle\DocumentManagementBundle\Model\Template;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Doctrine\Common\Persistence\ObjectManager;
-use Ramsey\Uuid\Uuid;
-use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 
 /**
  * @author:  Brahim BOUKOUFALLAH <brahim.boukoufallah@idci-consulting.fr>
@@ -22,7 +22,7 @@ class DocumentTransformEventSubscriber implements EventSubscriberInterface
     protected $manager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param TemplateManager $templateManager
      */
@@ -39,7 +39,7 @@ class DocumentTransformEventSubscriber implements EventSubscriberInterface
         return array(
             FormEvents::PRE_SUBMIT => array(
                 array('onPreSubmit', 999),
-            )
+            ),
         );
     }
 
@@ -55,28 +55,33 @@ class DocumentTransformEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Handle data
+     * Handle data.
      *
-     * @param array $data
+     * @param array|Document $data
      *
      * @return array
      */
-    public function handleData(array $data)
+    public function handleData($data)
     {
         $parameters = array();
 
-        $parameters['data'] = $data['data'] ? json_decode($data['data'], true) : array();
-        $parameters['template'] = $this->getTemplateId($data['template']);
+        if ($data instanceof Document) {
+            $data = $data->toArray();
+        }
 
-        return array_replace_recursive($data, $parameters);
+        $parameters['data'] = isset($data['data']) ? json_decode($data['data'], true) : array();
+        $parameters['template'] = isset($data['template']) ? $this->getTemplateId($data['template']) : '';
+
+        return array_merge($data, array_intersect_key($parameters, $data));
     }
 
     /**
-     * Get template id
+     * Get template id.
      *
-     * @param  string $id
+     * @param string $id
      *
-     * @return integer
+     * @return int
+     *
      * @throws NotFoundHttpException
      */
     protected function getTemplateId($id)

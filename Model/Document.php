@@ -50,7 +50,7 @@ class Document
     private $template;
 
     /**
-     * toString
+     * toString.
      *
      * @return string
      */
@@ -64,7 +64,7 @@ class Document
      */
     public function onCreate()
     {
-        $now = new \DateTime("now");
+        $now = new \DateTime('now');
         $this
             ->setCreatedAt($now)
             ->setUpdatedAt($now);
@@ -75,7 +75,7 @@ class Document
      */
     public function onUpdate()
     {
-        $this->setUpdatedAt(new \DateTime("now"));
+        $this->setUpdatedAt(new \DateTime('now'));
     }
 
     /**
@@ -269,7 +269,7 @@ class Document
     /**
      * Get template.
      *
-     * @return Template.
+     * @return Template
      */
     public function getTemplate()
     {
@@ -289,5 +289,21 @@ class Document
 
         return $this;
     }
-}
 
+    /**
+     * toArray.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return array(
+            'name' => $this->getName(),
+            'description' => $this->getDescription(),
+            'reference' => $this->getReference(),
+            'data' => json_encode($this->getData()),
+            'format' => $this->getFormat(),
+            'template' => $this->getTemplate()->getId(),
+        );
+    }
+}
