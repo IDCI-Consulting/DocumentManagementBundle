@@ -71,7 +71,8 @@ class DocumentControllerTest extends DocumentManagementWebTestCase
     public function testPatchDocumentAction()
     {
         $params = array(
-            'reference' => 'document-four',
+            'reference' => 'patch-reference',
+            'template' => 'template-two',
         );
 
         $this->client->request('PATCH', '/api/documents/af4bc160-2385-11e8-b467-0ed5f89f718b', $params);
@@ -83,7 +84,12 @@ class DocumentControllerTest extends DocumentManagementWebTestCase
             ->find('af4bc160-2385-11e8-b467-0ed5f89f718b');
 
         $this->assertEquals($params['reference'], $document->getReference());
+        $this->assertEquals($params['template'], $document->getTemplate()->getSlug());
         $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
+
+        $this->client->request('PATCH', '/api/documents/af4bc165-2385-11e8-b467-0ed5f89f718b', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 
     public function testDeleteDocumentAction()

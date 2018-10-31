@@ -72,7 +72,7 @@ class DocumentTransformEventSubscriber implements EventSubscriberInterface
         $parameters['data'] = isset($data['data']) ? json_decode($data['data'], true) : array();
         $parameters['template'] = isset($data['template']) ? $this->getTemplateId($data['template']) : '';
 
-        return array_merge($data, array_intersect_key($parameters, $data));
+        return array_replace_recursive($data, $parameters);
     }
 
     /**

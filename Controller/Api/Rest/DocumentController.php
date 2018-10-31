@@ -138,6 +138,7 @@ class DocumentController extends FOSRestController
      * @RequestParam(name="data", strict=true, nullable=true)
      * @RequestParam(name="format", strict=true, nullable=true)
      * @RequestParam(name="reference", strict=true, nullable=true)
+     * @RequestParam(name="template", strict=true, nullable=true)
      *
      * @param ParamFetcher $paramFetcher
      *
@@ -158,13 +159,9 @@ class DocumentController extends FOSRestController
         $form = $this->createForm(ApiDocumentType::class, $document);
 
         // Remove null values
-        $parameters = array_filter($paramFetcher->all());
+        $parameters = array_replace($document->toArray(), array_filter($paramFetcher->all()));
 
-        foreach ($parameters as $parameterName => $parameterValue) {
-            call_user_func(array($document, sprintf('set%s', ucfirst($parameterName))), $parameterValue);
-        }
-
-        $form->submit($document);
+        $form->submit($parameters);
         if ($form->isValid()) {
             $manager->flush();
 
