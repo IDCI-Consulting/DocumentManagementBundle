@@ -39,3 +39,5 @@ services:
     IDCI\Bundle\DocumentManagementBundle\Form\ApiDocumentType:
         arguments: ['@doctrine.orm.entity_manager']
         tags: [form.type]
+
+    IDCI\Bundle\DocumentManagementBundle\MimeType\MimeTypeExtensionGuesser:
