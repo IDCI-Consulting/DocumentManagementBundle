@@ -9,7 +9,7 @@ use IDCI\Bundle\DocumentManagementBundle\Tests\Functional\DocumentManagementWebT
 class TemplateControllerTest extends DocumentManagementWebTestCase
 {
     /**
-     * @var Doctrine\ORM\EntityManager $manager
+     * @var Doctrine\ORM\EntityManager
      */
     private $manager;
 

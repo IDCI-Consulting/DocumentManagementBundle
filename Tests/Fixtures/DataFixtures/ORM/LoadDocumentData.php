@@ -51,12 +51,12 @@ class LoadDocumentData extends AbstractFixture implements OrderedFixtureInterfac
      * Add a third document.
      *
      * @param ObjectManager $manager
-     * @param Template $template
+     * @param Template      $template
      */
     protected function loadThirdDocument(ObjectManager $manager, Template $template)
     {
         $now = new \Datetime('now');
-        $sql = "INSERT INTO document VALUES (:id, :template_id, :name, :description, :data, :format, :reference, :created_at, :updated_at);";
+        $sql = 'INSERT INTO document VALUES (:id, :template_id, :name, :description, :data, :format, :reference, :created_at, :updated_at);';
 
         $stmt = $manager->getConnection()->prepare($sql);
         $stmt->execute(array(

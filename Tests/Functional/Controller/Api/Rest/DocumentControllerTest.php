@@ -9,7 +9,7 @@ use IDCI\Bundle\DocumentManagementBundle\Tests\Functional\DocumentManagementWebT
 class DocumentControllerTest extends DocumentManagementWebTestCase
 {
     /**
-     * @var Doctrine\ORM\EntityManager $manager
+     * @var Doctrine\ORM\EntityManager
      */
     private $manager;
 
@@ -66,6 +66,24 @@ class DocumentControllerTest extends DocumentManagementWebTestCase
 
         $this->assertEquals($params['description'], $document->getDescription());
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+    }
+
+    public function testPatchDocumentAction()
+    {
+        $params = array(
+            'reference' => 'document-four',
+        );
+
+        $this->client->request('PATCH', '/api/documents/af4bc160-2385-11e8-b467-0ed5f89f718b', $params);
+        $response = $this->client->getResponse();
+
+        $document = $this
+            ->manager
+            ->getRepository(Document::class)
+            ->find('af4bc160-2385-11e8-b467-0ed5f89f718b');
+
+        $this->assertEquals($params['reference'], $document->getReference());
+        $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
     }
 
     public function testDeleteDocumentAction()

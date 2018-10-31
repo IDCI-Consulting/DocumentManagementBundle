@@ -9,7 +9,7 @@ namespace IDCI\Bundle\DocumentManagementBundle\Converter;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 
 /**
- * ConverterInterface
+ * ConverterInterface.
  *
  * @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */

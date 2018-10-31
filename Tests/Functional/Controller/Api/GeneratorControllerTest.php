@@ -2,9 +2,6 @@
 
 namespace IDCI\Bundle\DocumentManagementBundle\Tests\Functional\Controller\Api;
 
-use Symfony\Component\HttpFoundation\Response;
-use Twig\Environnement;
-use IDCI\Bundle\DocumentManagementBundle\Model\Document;
 use IDCI\Bundle\DocumentManagementBundle\Tests\Functional\DocumentManagementWebTestCase;
 
 class GeneratorControllerTest extends DocumentManagementWebTestCase

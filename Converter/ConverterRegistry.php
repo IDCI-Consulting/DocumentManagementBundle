@@ -9,7 +9,7 @@ namespace IDCI\Bundle\DocumentManagementBundle\Converter;
 use IDCI\Bundle\DocumentManagementBundle\Exception\UnexpectedTypeException;
 
 /**
- * Class ConverterRegistry
+ * Class ConverterRegistry.
  *
  * @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */
@@ -21,7 +21,7 @@ class ConverterRegistry implements ConverterRegistryInterface
     private $converters;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -29,7 +29,7 @@ class ConverterRegistry implements ConverterRegistryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setConverter($alias, ConverterInterface $converter)
     {
@@ -39,7 +39,7 @@ class ConverterRegistry implements ConverterRegistryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConverter($alias)
     {
@@ -58,7 +58,7 @@ class ConverterRegistry implements ConverterRegistryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasConverter($alias)
     {

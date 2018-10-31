@@ -4,7 +4,6 @@ namespace IDCI\Bundle\DocumentManagementBundle\Controller\Api;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\Options;
@@ -16,7 +15,7 @@ use IDCI\Bundle\DocumentManagementBundle\Model\Document;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 
 /**
- * GeneratorController
+ * GeneratorController.
  */
 class GeneratorController extends Controller
 {
@@ -27,8 +26,8 @@ class GeneratorController extends Controller
      * @Route("/documents/{id}/generate", name="idci_document_generate_document")
      * @Method({"GET"})
      *
-     * @param Request $request Data and options.
-     * @param string  $uuid    The document uuid.
+     * @param Request $request data and options
+     * @param string  $uuid    the document uuid
      *
      * @return Response
      */
@@ -65,8 +64,8 @@ class GeneratorController extends Controller
      * @Route("/templates/{id}/generate", name="idci_document_generate_document_from_template")
      * @Method({"GET"})
      *
-     * @param Request $request Data and options.
-     * @param string  $uuid    The template uuid.
+     * @param Request $request data and options
+     * @param string  $uuid    the template uuid
      *
      * @return Response
      */
@@ -129,7 +128,7 @@ class GeneratorController extends Controller
     {
         $resolver
             ->setDefined(array('data', 'options'))
-            ->setAllowedTypes('data',    array('null', 'string', 'array'))
+            ->setAllowedTypes('data', array('null', 'string', 'array'))
             ->setAllowedTypes('options', array('null', 'string', 'array'))
             ->setNormalizer('data', function (Options $options, $value) {
                 if (null === $value) {

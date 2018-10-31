@@ -3,19 +3,16 @@
 namespace IDCI\Bundle\DocumentManagementBundle\Tests\Generator;
 
 use PHPUnit\Framework\TestCase;
-use Twig\Environment;
 use Twig\Template as TwigTemplate;
 use Doctrine\ORM\EntityManager;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
-use IDCI\Bundle\DocumentManagementBundle\Exception\MissingGenerationParametersException;
 use IDCI\Bundle\DocumentManagementBundle\Repository\TemplateRepository;
 use IDCI\Bundle\DocumentManagementBundle\Converter\ConverterRegistryInterface;
 use IDCI\Bundle\DocumentManagementBundle\Converter\ConverterInterface;
-use IDCI\Bundle\DocumentManagementBundle\Converter\PdfConverter;
 use IDCI\Bundle\DocumentManagementBundle\Generator\Generator;
 
 /**
- * Class GeneratorTest
+ * Class GeneratorTest.
  *
  * @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */
@@ -57,7 +54,7 @@ class GeneratorTest extends TestCase
     protected $generator;
 
     /**
-     * setUp
+     * setUp.
      */
     public function setUp()
     {
@@ -91,7 +88,7 @@ class GeneratorTest extends TestCase
     }
 
     /**
-     * generateConfig
+     * generateConfig.
      */
     public function generateConfig()
     {
@@ -125,7 +122,7 @@ class GeneratorTest extends TestCase
     }
 
     /**
-     * testGenerate
+     * testGenerate.
      */
     public function testGenerate()
     {

@@ -65,7 +65,7 @@ class Template
      */
     public function onCreate()
     {
-        $now = new \DateTime("now");
+        $now = new \DateTime('now');
         $this
             ->setCreatedAt($now)
             ->setUpdatedAt($now);
@@ -80,11 +80,11 @@ class Template
      */
     public function onUpdate()
     {
-        $this->setUpdatedAt(new \DateTime("now"));
+        $this->setUpdatedAt(new \DateTime('now'));
     }
 
     /**
-     * toString
+     * toString.
      *
      * @return string
      */
@@ -102,6 +102,7 @@ class Template
     {
         return $this->id;
     }
+
     /**
      * Get id.
      *
@@ -319,7 +320,7 @@ class Template
     }
 
     /**
-     * Generate the slug (Using the template name)
+     * Generate the slug (Using the template name).
      *
      * @return string
      */
@@ -330,4 +331,3 @@ class Template
         return Transliterator::urlize($slug);
     }
 }
-

@@ -6,14 +6,14 @@ use IDCI\Bundle\DocumentManagementBundle\Converter\HtmlConverter;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 
 /**
- * Class HtmlConverterTest
+ * Class HtmlConverterTest.
  *
  * @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */
 class HtmlConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * testConvert
+     * testConvert.
      *
      * @return HtmlConverter
      */
@@ -29,7 +29,7 @@ class HtmlConverterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * testBuildContent
+     * testBuildContent.
      *
      * @depends testConvert
      */
@@ -39,7 +39,7 @@ class HtmlConverterTest extends \PHPUnit_Framework_TestCase
             ->setHtml('dummy_html')
             ->setCss('dummy_css');
 
-        $expectedContent =<<<EOF
+        $expectedContent = <<<EOF
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -56,7 +56,7 @@ EOF;
     }
 
     /**
-     * testGetMimeType
+     * testGetMimeType.
      *
      * @param HtmlConverter $htmlConverter
      *

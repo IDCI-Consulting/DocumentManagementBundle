@@ -9,14 +9,14 @@ namespace IDCI\Bundle\DocumentManagementBundle\Converter;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 
 /**
- * HtmlConverter
+ * HtmlConverter.
  *
  * @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */
 class HtmlConverter implements ConverterInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function convert($content)
     {
@@ -24,7 +24,7 @@ class HtmlConverter implements ConverterInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getMimeType()
     {
@@ -32,11 +32,11 @@ class HtmlConverter implements ConverterInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildContent(Template $template)
     {
-        $content =<<<EOF
+        $content = <<<EOF
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -45,6 +45,7 @@ class HtmlConverter implements ConverterInterface
     <body>%s</body>
 </html>
 EOF;
+
         return sprintf(
             $content,
             $template->getCss(),

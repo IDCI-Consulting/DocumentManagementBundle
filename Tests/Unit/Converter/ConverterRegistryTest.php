@@ -7,14 +7,14 @@ use IDCI\Bundle\DocumentManagementBundle\Converter\ConverterInterface;
 use IDCI\Bundle\DocumentManagementBundle\Converter\PdfConverter;
 
 /**
- * Class ConverterRegistryTest
+ * Class ConverterRegistryTest.
  *
  * @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */
 class ConverterRegistryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * testSetConverter
+     * testSetConverter.
      *
      * @return ConverterRegistry
      */
@@ -36,7 +36,7 @@ class ConverterRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * testHasConverter
+     * testHasConverter.
      *
      * @param ConverterRegistry $registry
      *
@@ -49,7 +49,7 @@ class ConverterRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * testGetConverter
+     * testGetConverter.
      *
      * @param ConverterRegistry $registry
      *
@@ -66,7 +66,7 @@ class ConverterRegistryTest extends \PHPUnit_Framework_TestCase
     /**
      * @param ConverterRegistry $registry
      *
-     * @expectedException IDCI\Bundle\DocumentManagementBundle\Exception\UnexpectedTypeException
+     * @expectedException \IDCI\Bundle\DocumentManagementBundle\Exception\UnexpectedTypeException
      *
      * @depends testSetConverter
      */

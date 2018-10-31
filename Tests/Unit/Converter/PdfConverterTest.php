@@ -7,14 +7,14 @@ use IDCI\Bundle\DocumentManagementBundle\Converter\PdfConverter;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 
 /**
- * Class PdfConverterTest
+ * Class PdfConverterTest.
  *
  * @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */
 class PdfConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * testConvert
+     * testConvert.
      *
      * @return PdfConverter
      */
@@ -39,7 +39,7 @@ class PdfConverterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * testBuildContent
+     * testBuildContent.
      *
      * @depends testConvert
      */
@@ -49,7 +49,7 @@ class PdfConverterTest extends \PHPUnit_Framework_TestCase
             ->setHtml('dummy_html')
             ->setCss('dummy_css');
 
-        $expectedContent =<<<EOF
+        $expectedContent = <<<EOF
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -66,7 +66,7 @@ EOF;
     }
 
     /**
-     * testGetMimeType
+     * testGetMimeType.
      *
      * @param PdfConverter $pdfConverter
      *

@@ -5,17 +5,14 @@ namespace IDCI\Bundle\DocumentManagementBundle\Controller\Api\Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Doctrine\DBAL\Types\ConversionException;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
-use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Request\ParamFetcher;
 use JMS\Serializer\SerializationContext;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
-use IDCI\Bundle\DocumentManagementBundle\Form\TemplateType;
 
 /**
- * TemplateController
+ * TemplateController.
  *
  * @Route(name="api_templates_")
  */
@@ -108,4 +105,3 @@ class TemplateController extends FOSRestController
         return $this->handleView($view);
     }
 }
-

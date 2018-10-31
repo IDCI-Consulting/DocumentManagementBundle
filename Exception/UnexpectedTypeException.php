@@ -7,7 +7,7 @@
 namespace IDCI\Bundle\DocumentManagementBundle\Exception;
 
 /**
- * Class UnexpectedTypeException
+ * Class UnexpectedTypeException.
  *
  * @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */

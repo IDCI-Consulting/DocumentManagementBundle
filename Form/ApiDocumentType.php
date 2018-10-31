@@ -5,7 +5,6 @@ namespace IDCI\Bundle\DocumentManagementBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Doctrine\Common\Persistence\ObjectManager;
 use IDCI\Bundle\DocumentManagementBundle\Form\EventListener\DocumentTransformEventSubscriber;
@@ -19,7 +18,7 @@ class ApiDocumentType extends AbstractType
     protected $manager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param TemplateManager $templateManager
      */

@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class ConverterCompilerPass
+ * Class ConverterCompilerPass.
  */
 class ConverterCompilerPass implements CompilerPassInterface
 {

@@ -10,7 +10,7 @@ use Knp\Snappy\GeneratorInterface;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 
 /**
- * Class PdfConverter
+ * Class PdfConverter.
  *
  * @author Brahim Boukoufallah <brahim.boukoufallah@idci-consulting.fr>
  */
@@ -22,7 +22,7 @@ class PdfConverter implements ConverterInterface
     protected $wkhtmltopdf;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param GeneratorInterface $wkhtmltopdf
      */
@@ -32,7 +32,7 @@ class PdfConverter implements ConverterInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function convert($content)
     {
@@ -40,7 +40,7 @@ class PdfConverter implements ConverterInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getMimeType()
     {
@@ -48,11 +48,11 @@ class PdfConverter implements ConverterInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildContent(Template $template)
     {
-        $content =<<<EOF
+        $content = <<<EOF
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -61,6 +61,7 @@ class PdfConverter implements ConverterInterface
     <body>%s</body>
 </html>
 EOF;
+
         return sprintf(
             $content,
             $template->getCss(),

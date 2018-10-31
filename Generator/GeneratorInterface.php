@@ -7,14 +7,14 @@
 namespace IDCI\Bundle\DocumentManagementBundle\Generator;
 
 /**
- * Interface GeneratorInterface
+ * Interface GeneratorInterface.
  */
 interface GeneratorInterface
 {
     /**
      * Generate a document from given parameters.
      *
-     * @param array $parameters The parameters to generate the document.
+     * @param array $parameters the parameters to generate the document
      *
      * @return string
      *

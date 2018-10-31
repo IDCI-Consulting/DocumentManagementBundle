@@ -8,20 +8,20 @@ use Symfony\Component\Console\Input\StringInput;
 
 class DocumentManagementWebTestCase extends WebTestCase
 {
-    /** @var  Application $application */
+    /** @var Application $application */
     protected static $application;
 
-    /** @var  Client $client */
+    /** @var Client $client */
     protected $client;
 
-    /** @var  ContainerInterface $container */
+    /** @var ContainerInterface $container */
     protected $container;
 
     public function setUp()
     {
         self::runCommand('doctrine:database:create');
         self::runCommand('doctrine:schema:update --force');
-        self::runCommand('doctrine:fixtures:load --append --fixtures=' . __DIR__ .'/../Fixtures/DataFixtures/ORM');
+        self::runCommand('doctrine:fixtures:load --append --fixtures='.__DIR__.'/../Fixtures/DataFixtures/ORM');
 
         $this->client = static::createClient();
         $this->container = $this->client->getContainer();
@@ -30,7 +30,7 @@ class DocumentManagementWebTestCase extends WebTestCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function tearDown()
     {

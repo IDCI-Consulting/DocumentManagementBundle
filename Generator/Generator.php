@@ -3,18 +3,17 @@
 /**
  * @license MIT
  */
+
 namespace IDCI\Bundle\DocumentManagementBundle\Generator;
 
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\Common\Persistence\ObjectManager;
-use \Twig_Environment;
 use Twig\Error\RuntimeError;
 use Twig\Error\Error;
 use IDCI\Bundle\DocumentManagementBundle\Converter\ConverterRegistryInterface;
 use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 use IDCI\Bundle\DocumentManagementBundle\Model\Document;
-use IDCI\Bundle\DocumentManagementBundle\Repository\TemplateRepository;
 
 /**
  * Class Generator.
@@ -107,9 +106,9 @@ class Generator implements GeneratorInterface
     /**
      * Generate a document from a template with given data and options.
      *
-     * @param Template $template The template.
-     * @param mixed    $data     The data to merge could be a json or and array.
-     * @param mixed    $options  The options could be a json or and array.
+     * @param Template $template the template
+     * @param mixed    $data     the data to merge could be a json or and array
+     * @param mixed    $options  the options could be a json or and array
      *
      * @return string
      */
@@ -125,11 +124,11 @@ class Generator implements GeneratorInterface
     }
 
     /**
-     * Returns the rendered Html using twig render to use data and twig template
+     * Returns the rendered Html using twig render to use data and twig template.
      *
-     * @param Template $template The template.
-     * @param array    $data     The fetched data.
-     * @param string   $format   The format.
+     * @param Template $template the template
+     * @param array    $data     the fetched data
+     * @param string   $format   the format
      *
      * @return string
      *
@@ -149,21 +148,21 @@ class Generator implements GeneratorInterface
             ));
         } catch (RuntimeError $e) {
             throw new \Exception(sprintf(
-                "%s - Render: %s, this exception was raised may be you use not defined data in the template: %s",
+                '%s - Render: %s, this exception was raised may be you use not defined data in the template: %s',
                 get_class($e),
                 $e->getMessage(),
                 $template->getId()
             ));
         } catch (Error $e) {
             throw new \Exception(sprintf(
-                "%s - Render: %s, template id: %s",
+                '%s - Render: %s, template id: %s',
                 get_class($e),
                 $e->getMessage(),
                 $template->getId()
             ));
         }
 
-        /**
+        /*
          * Clear twig cache files
          *
          * When using this loader with a cache mechanism, you should know that a new cache
@@ -186,11 +185,11 @@ class Generator implements GeneratorInterface
         $resolver
             ->setRequired(array('template_id'))
             ->setDefaults(array(
-                'data'    => array(),
+                'data' => array(),
                 'options' => array('format' => 'pdf'),
             ))
             ->setAllowedTypes('template_id', array('int', 'string'))
-            ->setAllowedTypes('data',        array('array'))
-            ->setAllowedTypes('options',     array('array'));
+            ->setAllowedTypes('data', array('array'))
+            ->setAllowedTypes('options', array('array'));
     }
 }

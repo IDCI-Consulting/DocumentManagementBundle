@@ -8,13 +8,13 @@ use Symfony\Component\Console\Input\StringInput;
 
 abstract class DocumentManagementWebTestCase extends WebTestCase
 {
-    /** @var  Application $application */
+    /** @var Application $application */
     protected static $application;
 
-    /** @var  Client $client */
+    /** @var Client $client */
     protected $client;
 
-    /** @var  ContainerInterface $container */
+    /** @var ContainerInterface $container */
     protected $container;
 
     public function setUp()
@@ -31,7 +31,7 @@ abstract class DocumentManagementWebTestCase extends WebTestCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function tearDown()
     {
