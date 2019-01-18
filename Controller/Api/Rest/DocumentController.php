@@ -107,26 +107,51 @@ class DocumentController extends FOSRestController
         $form = $this->createForm(ApiDocumentType::class, $document);
         $view = $this->view();
 
-        $form->submit($paramFetcher->all());
+        try {
+            $form->submit($paramFetcher->all());
+            if ($form->isSubmitted() && $form->isValid()) {
+                $manager->persist($document);
+                $manager->flush();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($document);
-            $manager->flush();
+                $view
+                    ->setHeader(
+                        'Location',
+                        $this->generateUrl('api_documents_get_document', array('uuid' => $document->getId())),
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    )
+                    ->setData(array(
+                        'id' => $document->getId(),
+                    ))
+                    ->setStatusCode(Response::HTTP_CREATED)
+                ;
+            } else {
+                $error = '';
+                foreach ($form->getErrors(true) as $formError) {
+                    $error .= sprintf(
+                        "%s %s: '%s'\n",
+                        $formError->getMessage(),
+                        $formError->getOrigin()->getName(),
+                        $formError->getOrigin()->getData()
+                    );
+                }
 
+                $view
+                    ->setData(array(
+                        'error' => $error
+                    ))
+                    ->setStatusCode(Response::HTTP_BAD_REQUEST)
+                ;
+            }
+        } catch (\Exception $e) {
             $view
-                ->setHeader(
-                    'Location',
-                    $this->generateUrl('api_documents_get_document', array('uuid' => $document->getId())),
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                )
                 ->setData(array(
-                    'id' => $document->getId(),
+                    'error' => $e->getMessage(),
                 ))
-                ->setStatusCode(Response::HTTP_CREATED)
+                ->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR)
             ;
-
-            return $this->handleView($view);
         }
+
+        return $this->handleView($view);
     }
 
     /**
