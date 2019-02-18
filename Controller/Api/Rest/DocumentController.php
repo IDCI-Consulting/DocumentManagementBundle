@@ -8,6 +8,7 @@ use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Request\ParamFetcher;
 use IDCI\Bundle\DocumentManagementBundle\Form\ApiDocumentType;
 use IDCI\Bundle\DocumentManagementBundle\Model\Document;
+use IDCI\Bundle\DocumentManagementBundle\Model\Template;
 use JMS\Serializer\SerializationContext;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,9 +37,22 @@ class DocumentController extends FOSRestController
      */
     public function getDocumentsAction(ParamFetcher $paramFetcher)
     {
+        $em = $this->getDoctrine()->getManager();
         $criteria = [];
         foreach (['reference', 'name', 'template'] as $field) {
-            if (null !== $paramFetcher->get($field)) {
+            if (null === $paramFetcher->get($field)) {
+                continue;
+            }
+
+            if ('template' === $field) {
+                $template = $em->getRepository(Template::class)->findOneBy([
+                    'slug' => $paramFetcher->get($field)
+                ]);
+
+                if (null !== $template) {
+                    $criteria[$field] = $template;
+                }
+            } else {
                 $criteria[$field] = $paramFetcher->get($field);
             }
         }
@@ -47,7 +61,7 @@ class DocumentController extends FOSRestController
         $offset = (int) $limit * $paramFetcher->get('page');
 
         $view = $this->view(
-            $this->getDoctrine()->getManager()->getRepository(Document::class)->findBy($criteria, null, $limit, $offset),
+            $em->getRepository(Document::class)->findBy($criteria, null, $limit, $offset),
             Response::HTTP_OK
         );
 
