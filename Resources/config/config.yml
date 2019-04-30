@@ -36,7 +36,7 @@ fos_rest:
 knp_snappy:
     pdf:
         enabled: true
-        binary: "%kernel.root_dir%/../vendor/idci/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64"
+        binary: "%document_management_snappy_pdf_binary_path%"
         options:
             margin_bottom: 0
             margin_left: 0
