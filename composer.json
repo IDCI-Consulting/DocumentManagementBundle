@@ -19,9 +19,6 @@
     "require": {
         "php": ">=5.5.9",
         "behat/transliterator": "~1.1",
-        "idci/wkhtmltopdf-amd64": "~0.12",
-        "h4cc/wkhtmltopdf-amd64": "~0.12",
-        "h4cc/wkhtmltopdf-i386": "~0.12",
         "knplabs/knp-snappy-bundle": "~1.5",
         "knplabs/knp-gaufrette-bundle": "~0.5",
         "doctrine/doctrine-bundle": "^1.8",
@@ -41,6 +38,11 @@
         "symfony/twig-bundle": "~3.4",
         "sensio/framework-extra-bundle": "^5.0.0",
         "symfony/templating": "^3.4"
+    },
+    "suggest": {
+        "idci/wkhtmltopdf-amd64": "To get wkhtmltopdf binary up to 0.12.5 for 64bit architecture",
+        "h4cc/wkhtmltopdf-amd64": "To get wkhtmltopdf binary for 64bit architecture",
+        "h4cc/wkhtmltopdf-i386": "To get wkhtmltopdf binary for 32bit architecture",
     },
     "autoload": {
         "psr-4": {

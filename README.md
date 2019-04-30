@@ -46,12 +46,20 @@ imports:
 
 Import the bundle routing:
 ```yml
-# app/config/routng.yml
+# app/config/routing.yml
 
 idci_document_api:
     resource: "@IDCIDocumentManagementBundle/Resources/config/routing.yml"
     prefix: /api
 ```
+
+Define the binary path for wkhtmltopdf:
+```yml
+# app/config/parameters.yml
+parameters:
+    document_management_snappy_pdf_binary_path: '%kernel.root_dir%/../bin/wkhtmltopdf'
+```
+
 
 That's it, you are ready to use it.
 
