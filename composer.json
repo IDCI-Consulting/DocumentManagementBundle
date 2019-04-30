@@ -19,6 +19,7 @@
     "require": {
         "php": ">=5.5.9",
         "behat/transliterator": "~1.1",
+        "idci/wkhtmltopdf-amd64": "~0.12",
         "h4cc/wkhtmltopdf-amd64": "~0.12",
         "h4cc/wkhtmltopdf-i386": "~0.12",
         "knplabs/knp-snappy-bundle": "~1.5",
