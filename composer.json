@@ -42,7 +42,7 @@
     "suggest": {
         "idci/wkhtmltopdf-amd64": "To get wkhtmltopdf binary up to 0.12.5 for 64bit architecture",
         "h4cc/wkhtmltopdf-amd64": "To get wkhtmltopdf binary for 64bit architecture",
-        "h4cc/wkhtmltopdf-i386": "To get wkhtmltopdf binary for 32bit architecture",
+        "h4cc/wkhtmltopdf-i386": "To get wkhtmltopdf binary for 32bit architecture"
     },
     "autoload": {
         "psr-4": {
